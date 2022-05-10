@@ -75,11 +75,23 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            ///
+            [Required]
+            [Display(Name = "Role")]
+            public String  Role { get; set; }
+
+            [Required]
+            [Display(Name = "Name")]
+            [StringLength(100, ErrorMessage = "your name is too short ", MinimumLength = 6)]
+            public string Name { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+
+           
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -124,6 +136,14 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
+                    if (Input.Role=="student")
+                    {
+                       await _userManager.AddToRoleAsync(user, "student");
+                    }
+                    else if (Input.Role=="instractor")
+                    {
+                        await _userManager.AddToRoleAsync(user, "instractor");
+                    }
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
