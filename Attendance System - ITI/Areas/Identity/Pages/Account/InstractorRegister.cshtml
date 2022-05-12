@@ -5,14 +5,18 @@
 
 @{
     ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/RL_layout.cshtml";
 }
 
-<h1>@ViewData["Title"]</h1>
 
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
+<h2>Instractor Register</h2>
+
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post"class="rounded bg-white shadow p-5">
+            <h3 class="text-dark fw-bolder fs-4 mb-2">Create an Account</h3>
+		    <div class="fw-normal text-muted mb-2">
+						Already have an account? <a asp-area="Identity" asp-page="/Account/Login" class="text-primary fw-bold text-decoration-none">login here</a>
+			</div>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
@@ -50,9 +54,6 @@
             </div>
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
-    </div>
- 
-</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

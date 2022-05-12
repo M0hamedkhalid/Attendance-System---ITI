@@ -136,6 +136,8 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
+
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
