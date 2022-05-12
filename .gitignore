@@ -348,3 +348,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/Attendance System - ITI/Properties/ServiceDependencies/AttendanceSys - Web Deploy/profile.arm.json
