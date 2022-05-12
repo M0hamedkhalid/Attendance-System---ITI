@@ -53,7 +53,7 @@ namespace Attendance_System___ITI.Controllers
         public IActionResult Create()
         {
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Id");
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
             return View();
         }
 

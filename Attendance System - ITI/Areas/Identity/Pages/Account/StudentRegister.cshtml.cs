@@ -19,24 +19,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Attendance_System___ITI.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Attendance_System___ITI.Areas.Identity.Pages.Account
 {
-    public class RegisterModel : PageModel
+    public class StudentRegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserStore<ApplicationUser> _userStore;
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly ILogger<StudentRegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _context;
 
-        public RegisterModel(
+
+        public StudentRegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<StudentRegisterModel> logger,
+            IEmailSender emailSender ,ApplicationDbContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +48,8 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
+
         }
 
         /// <summary>
@@ -76,10 +82,8 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             ///
-            [Required]
-            [Display(Name = "Role")]
-            public String  Role { get; set; }
-
+            [Required(ErrorMessage = "Select Department")]
+            public int DeptId { get; set; }
             [Required]
             [Display(Name = "Name")]
             [StringLength(100, ErrorMessage = "your name is too short ", MinimumLength = 6)]
@@ -90,22 +94,27 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            [Required(ErrorMessage = "Mobile no. is required")]
+            [Phone]
+            [RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
+            public string Mobile { get; set; }
+            [Required(ErrorMessage = "Address is required")]
+            public string Address { get; set; }
+            [Required]
+            public string University { get; set; }
+            [Required]
+            public string Faculty { get; set; }
+            [Required]
+            public int GraduationYear { get; set; }
+            [Required]
+            public int GraduationGrade { get; set; }
 
-           
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
@@ -117,6 +126,7 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -131,19 +141,25 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
+                Student std = new Student();
+                std.Id = await _userManager.GetUserIdAsync(user);
+                std.Name = Input.Name;
+                std.Address = Input.Address;
+                std.DeptID =Input.DeptId;
+                std.Faculty = Input.Faculty;
+                std.University = Input.University;
+                std.GraduationGrade = Input.GraduationGrade;
+                std.GraduationYear=Input.GraduationYear;
+                std.Mobile=Input.Mobile;
+                _context.Add(std);
+                await _context.SaveChangesAsync();
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    if (Input.Role=="student")
-                    {
-                       await _userManager.AddToRoleAsync(user, "student");
-                    }
-                    else if (Input.Role=="instractor")
-                    {
-                        await _userManager.AddToRoleAsync(user, "instractor");
-                    }
+                        var userId = await _userManager.GetUserIdAsync(user);
+                    await _userManager.AddToRoleAsync(user, "student");
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
