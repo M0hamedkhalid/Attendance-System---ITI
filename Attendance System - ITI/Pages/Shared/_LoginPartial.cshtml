@@ -3,40 +3,45 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject ApplicationDbContext dbContext
 @{
-    var user = (await UserManager.GetUserAsync(User));
-            dbContext.Entry(user).Reference(u => u.Student).Load();
-            dbContext.Entry(user).Reference(u => u.Instructor).Load();
-             var fullNmae = user.Instructor.Name ?? user.Student.Name;
+    var fullname = "";
+    if (SignInManager.IsSignedIn(User))
+    {
+        var user = (await UserManager.GetUserAsync(User));
+        dbContext.Entry(user).Reference(u => u.Student).Load();
+        dbContext.Entry(user).Reference(u => u.Instructor).Load();
+
+         fullname = user.Instructor?.Name ?? user.Student?.Name;
+    }
 }
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullNmae </a>
-    </li>
-    <li class="nav-item">
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-            <button  type="submit" class="nav-link btn btn-link text-danger">Logout</button>
-        </form>
-    </li>
-}
-else
-{
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullname </a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <button type="submit" class="nav-link btn btn-link text-danger">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Register
-          </a>
-          <ul class="dropdown-menu dropdown-menu-Light" aria-labelledby="navbarLightDropdownMenuLink">
-            <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/InstractorRegister">Instractor</a></li>
-            <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/StudentRegister">Student</a></li>
-          </ul>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Register
+            </a>
+            <ul class="dropdown-menu dropdown-menu-Light" aria-labelledby="navbarLightDropdownMenuLink">
+                <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/InstractorRegister">Instractor</a></li>
+                <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/StudentRegister">Student</a></li>
+            </ul>
         </li>
 
-@*    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        @*    <li class="nav-item">
+    <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
     </li>*@
-    <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
 </ul>
