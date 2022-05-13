@@ -12,7 +12,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>()
+builder.Services.AddDefaultIdentity<ApplicationUser>(option =>
+{
+    option.Password.RequireNonAlphanumeric = false;
+}).AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
