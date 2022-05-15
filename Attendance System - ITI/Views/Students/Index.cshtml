@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Attendance_System___ITI.Models.Student>
+﻿@using Attendance_System___ITI.Models
+
+@model IEnumerable<Attendance_System___ITI.Models.Student>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,6 +11,8 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+@Html.DropDownList("DeptID", ViewBag.DeptID as SelectList)
+
 <table class="table">
     <thead>
         <tr>

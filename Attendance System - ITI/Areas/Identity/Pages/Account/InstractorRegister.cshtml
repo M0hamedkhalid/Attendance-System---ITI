@@ -13,6 +13,9 @@
 
 
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post"class="rounded bg-white shadow p-5">
+            				<div class="logo">
+					<img src="/images/user.png" class="img-fluid" alt="logo">
+				</div>
             <h3 class="text-dark fw-bolder fs-4 mb-2">Create an Account</h3>
 		    <div class="fw-normal text-muted mb-2">
 						Already have an account? <a asp-area="Identity" asp-page="/Account/Login" class="text-primary fw-bold text-decoration-none">login here</a>
@@ -21,9 +24,10 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
                 <select asp-for="Input.DeptId" class ="form-control" asp-items="ViewBag.DeptID">
-                      <option selected>Select Department</option>
-
+                     <option selected>Select Department</option>
                 </select>
+                 <label>Department</label>
+
                 <span asp-validation-for="Input.DeptId" class="text-danger"></span>
             </div>
 

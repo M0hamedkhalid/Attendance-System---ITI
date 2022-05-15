@@ -26,6 +26,7 @@ namespace Attendance_System___ITI.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Students.Include(s => s.Credential).Include(s => s.Department);
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
             return View(await applicationDbContext.ToListAsync());
         }
 
