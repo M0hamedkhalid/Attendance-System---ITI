@@ -16,12 +16,14 @@ namespace Attendance_System___ITI.Models
         public string? Address { get; set; }
         [ForeignKey("Department")]
         public int? DeptID { get; set; }
+        public int StudentStatus { get; set; }
 
-        
+
+
         public ApplicationUser Credential { get; set; }
         public Department? Department { get; set; }
         public ICollection<Attendance> Attendances { get; set; }
-        
+
 
         public Student()
         {

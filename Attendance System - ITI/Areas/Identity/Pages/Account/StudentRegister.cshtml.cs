@@ -178,6 +178,7 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
                     std.GraduationGrade = Input.GraduationGrade;
                     std.GraduationYear = Input.GraduationYear;
                     std.Mobile = Input.Mobile;
+                    std.StudentStatus = 0;
                     _context.Add(std);
                     await _context.SaveChangesAsync();
                     await _signInManager.SignInAsync(user, isPersistent: false);

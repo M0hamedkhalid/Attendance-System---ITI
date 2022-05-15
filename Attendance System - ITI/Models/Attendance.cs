@@ -4,7 +4,6 @@ namespace Attendance_System___ITI.Models
 {
     public class Attendance
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         [ForeignKey("Student")]
         public string StudentId { get; set; }
