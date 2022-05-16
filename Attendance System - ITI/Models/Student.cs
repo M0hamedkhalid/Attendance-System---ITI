@@ -17,7 +17,7 @@ namespace Attendance_System___ITI.Models
         [ForeignKey("Department")]
         public int? DeptID { get; set; }
         public int StudentStatus { get; set; }
-
+        public int Warning { get; set; }
 
 
         public ApplicationUser Credential { get; set; }

@@ -64,6 +64,19 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Department.Id)
         </dd>
+        <dt class = "col-sm-2">
+            Comments
+        </dt>
+        <dd class = "col-sm-10">
+           This Student Has @ViewBag.Warnings Warnings
+        </dd>
+        <dt class = "col-sm-2">
+            Operations
+        </dt>
+        <dd class = "col-sm-10">
+            <a asp-action="AddWarning" asp-route-id="@Model?.Id" onclick="alert('A Warnning Has Been Sent')">Add Warning</a>
+            <a asp-action="Expel" asp-route-id="@Model?.Id"  >Expel</a>
+        </dd>
     </dl>
 </div>
 <div>

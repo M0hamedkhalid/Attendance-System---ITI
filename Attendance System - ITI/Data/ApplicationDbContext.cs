@@ -25,6 +25,8 @@ namespace Attendance_System___ITI.Data
             builder.Entity<Department>().HasMany(d => d.Instructors)
                         .WithOne(i => i.Department).HasForeignKey(i => i.DeptID);
             base.OnModelCreating(builder);
+
+            builder.Entity<Student>().Property(std => std.Warning).HasDefaultValue(0);
         }
     }
 }

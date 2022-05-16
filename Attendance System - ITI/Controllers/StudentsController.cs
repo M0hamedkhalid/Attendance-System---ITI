@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Attendance_System___ITI.Data;
 using Attendance_System___ITI.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Mail;
+using System.Net;
 
 namespace Attendance_System___ITI.Controllers
 {
@@ -42,6 +44,8 @@ namespace Attendance_System___ITI.Controllers
                 .Include(s => s.Credential)
                 .Include(s => s.Department)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.Warnings = student.Warning;
+
             if (student == null)
             {
                 return NotFound();
@@ -165,6 +169,48 @@ namespace Attendance_System___ITI.Controllers
         private bool StudentExists(string id)
         {
             return _context.Students.Any(e => e.Id == id);
+        }
+        public async Task<IActionResult> AddWarning(string Id)
+        {
+            
+            var std = await _context.Students.Include(s => s.Credential).FirstOrDefaultAsync(s=> s.Id == Id);
+            string stdEmail = std.Credential.Email;
+            string sender= HttpContext.User.Identity.Name;
+            string email = $"Dear {std.Name}\n" +
+                $",\n As your instructor, I am writing because I am concerned about your current Attendance & grade in the course, and I want to help you get back on track to successfully complete the course.There are many resources for academic help \n" +
+                $"\n Regards,\n" +
+                $" {sender}";
+            if (std != null)
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient smtp = new SmtpClient();
+
+                message.From = new MailAddress("itiegypt2022@gmail.com");
+                message.To.Add(new MailAddress("mkhaledmohamed07@gmail.com"));
+                message.Subject = "Warning";
+                message.IsBodyHtml = false; //to make message body as html  
+                message.Body = email;
+                smtp.Port = 587;
+                smtp.Host = "smtp.gmail.com"; //for gmail host  
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential("itiegypt2022@gmail.com", "Iti20222021");
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(message);
+                std.Warning = std.Warning+1;
+                await _context.SaveChangesAsync();
+            }
+            return Redirect($"/Students/Details/{Id}");
+            
+        }
+
+        public async Task<IActionResult> Expel(string Id)
+        {
+            var std = await _context.Students.FirstOrDefaultAsync(s => s.Id == Id);
+             _context.Students.Remove(std);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
         }
     }
 }
