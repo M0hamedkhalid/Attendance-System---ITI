@@ -13,12 +13,15 @@ namespace Attendance_System___ITI.Models
 
         public ICollection<Student> Students { get; set; }
         public ICollection<Instructor> Instructors { get; set; }
+
+        public ICollection<Lecture> Lectures { get; set; }
         public Instructor? Manger { get; set; }
 
         public Department()
         {
             Students = new HashSet<Student>();
             Instructors = new HashSet<Instructor>();
+            Lectures=new HashSet<Lecture>();
         }
     }
 }
