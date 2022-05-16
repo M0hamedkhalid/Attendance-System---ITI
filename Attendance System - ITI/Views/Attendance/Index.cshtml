@@ -3,10 +3,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-<select>
+<h1>Attendance of Students</h1>
+<select id="selectA">
     <option value="Attend">Attend</option>
-    <option value="leave">Leave</option>
+    <option value="Leave">Leave</option>
 </select>
 <table class="table">
     <thead>
@@ -15,19 +15,16 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Department)
+                Attend/Leave
             </th>
             <th></th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="Attend">
 @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Department.Name)
             </td>
             <td>
                 <a asp-action="Attend" asp-route-id="@item.Id">Attend</a>
@@ -35,6 +32,9 @@
         </tr>
 
 }
+<tbody/>
+    <tbody id="Leave">
+
 @foreach (var s in ViewBag.Attended)
             {
               
@@ -50,3 +50,21 @@
             }
     </tbody>
 </table>
+@section Scripts
+{
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#Leave').hide();
+            $('#Attend').show();
+            $("#selectA").change(function () {
+                var currentdata = $("#" + $(this).val());
+                currentdata.show();
+
+                $('#Leave').not(currentdata).hide();
+                 $('#Attend').not(currentdata).hide();
+            });
+        })
+    </script>
+}
+
