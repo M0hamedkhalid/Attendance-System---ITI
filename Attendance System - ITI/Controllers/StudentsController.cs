@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Attendance_System___ITI.Data;
 using Attendance_System___ITI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Attendance_System___ITI.Controllers
 {
@@ -16,17 +17,44 @@ namespace Attendance_System___ITI.Controllers
     public class StudentsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
         public StudentsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(int? DeptID)
         {
-            var applicationDbContext = _context.Students.Include(s => s.Credential).Include(s => s.Department);
-            return View(await applicationDbContext.ToListAsync());
+            if (DeptID == null)
+            {
+                var applicationDbContext = _context.Students.Include(s => s.Credential).Include(s => s.Department);
+                ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
+                return View(await applicationDbContext.ToListAsync());
+            }
+            else
+            {
+                var applicationDbContext1 = _context.Students.Include(s => s.Credential).Include(s => s.Department).Where(a => a.DeptID == DeptID);
+                ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
+                return View(await applicationDbContext1.ToListAsync());
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Index(string searchtext)
+        {
+            var std = _context.Students.Where(a => a.Name.Contains(searchtext));
+            //ViewBag.StdList = await std.ToListAsync();
+
+            ViewData["CurrentFilter"] = searchtext;
+
+
+
+            if (!String.IsNullOrEmpty(searchtext))
+            {
+                std = _context.Students.Where(a => a.Name.Contains(searchtext));
+            }
+
+            return View(await std.AsNoTracking().ToListAsync());
         }
 
         // GET: Students/Details/5

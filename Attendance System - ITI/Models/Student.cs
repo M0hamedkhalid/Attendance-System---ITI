@@ -17,7 +17,7 @@ namespace Attendance_System___ITI.Models
         [ForeignKey("Department")]
         public int? DeptID { get; set; }
 
-        
+
         public ApplicationUser Credential { get; set; }
         public Department? Department { get; set; }
         public ICollection<Attendance> Attendances { get; set; }

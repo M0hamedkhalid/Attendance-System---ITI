@@ -9,6 +9,56 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+@using (Html.BeginForm("Index", "Students", FormMethod.Get))
+    {
+        @Html.DropDownList("DeptID", ViewBag.DeptID as SelectList)
+        <input type="submit" value="Filter" />
+        @*foreach(var item in Model){
+        <input asp-for=@item.Student.selecteddept />
+        }*@
+    }
+
+@*@Html.DropDownList("DeptID", ViewBag.DeptID as SelectList)*@
+@*<select id="sd" asp-items="ViewBag.DeptID" onchange="change()"></select>
+@section scripts {
+    <script>
+        function change() {
+            let val = document.getElementById("sd").value;
+            let std = _context.Students.Where(a => a.DeptID == val);
+            return View(std);
+        }
+    </script>
+}*@
+<form asp-action="Index" method="post">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="searchtext" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+@*<input type="text" id="searchtext" />
+<input type="submit" value="Filter" />
+    @foreach(var item in ViewBag.StdList){
+        
+        <a asp-for="@item.Student.Name" />
+        @Html.DropDownList("DeptID", ViewBag.DeptID as SelectList)
+    }
+*@
+
+@*<select asp-for="DeptID" class="form-control" asp-items="ViewBag.DeptID">
+    <option selected>Select Department</option>
+</select>*@
+
+@*<form>
+    <label asp-for=@ViewBag.searchtext />
+    <input asp-for=@Student.searchtext />
+    @Html.DropDownList("DeptID", ViewBag.DeptID as SelectList)
+    <input type="submit" value="Filter" />
+</form>*@
 <table class="table">
     <thead>
         <tr>
