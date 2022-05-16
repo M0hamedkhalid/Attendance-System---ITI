@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<Attendance_System___ITI.Models.Student>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "List of Students";
 }
-
-<h1>Index</h1>
+<div class="container">
+        <main role="main" class="pb-3">
+<h1 class="h-3 my-3 title">@ViewBag.Title</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -131,3 +132,6 @@
 }
     </tbody>
 </table>
+
+            </main>
+    </div>

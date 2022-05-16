@@ -53,20 +53,20 @@ https://templatemo.com/tm-543-breezed
     
     
     <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky">
+    <header class="header-area header-sticky" style="background-color:#2BCAA5">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="~/index.html" class="logo">
+                        <h1 class="logo">
                             Attendance System
-                        </a>
+                        </h1>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Menu Start ***** -->
                         <ul class="nav">
-                            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="#about">About</a></li>
+                            <li class="scroll-to-section"><a asp-page="/Index">Home</a></li>
+                            <li class="scroll-to-section"><a asp-controller="/Students">Students</a></li>
                             <li class="scroll-to-section"><a href="#projects">Projects</a></li>
                             <partial name="_LoginPartial" />
                         </ul>        
@@ -78,63 +78,10 @@ https://templatemo.com/tm-543-breezed
                 </div>
             </div>
         </div>
-    </header>
+    </header><br /><br /><br />
     <!-- ***** Header Area End ***** -->
-    
-    <!-- ***** Search Area ***** -->
-    <div id="search">
-        <button type="button" class="close">×</button>
-        <form id="contact" action="#" method="get">
-            <fieldset>
-                <input type="search" name="q" placeholder="SEARCH KEYWORD(s)" aria-label="Search through site content">
-            </fieldset>
-            <fieldset>
-                <button type="submit" class="main-button">Search</button>
-            </fieldset>
-        </form>
-    </div>
 
-    <!-- ***** Main Banner Area Start ***** -->
-    <div class="main-banner header-text" id="top">
-        <div class="Modern-Slider">
-          <!-- Item -->
-          <div class="item">
-            <div class="img-fill">
-                <img src="~/assets/images/slide-01.jpg" alt="">
-                <div class="text-content">
-                  <h3>Welcome,</h3>
-                  <h5>No pain, no gain.</h5>
-                </div>
-            </div>
-          </div>
-          <!-- // Item -->
-          <!-- Item -->
-          <div class="item">
-            <div class="img-fill">
-                <img src="~/assets/images/slide-02.jpg" alt="">
-                <div class="text-content">
-                  <h3>Welcome,</h3>
-                  <h5>No pain, no gain.</h5>
-                </div>
-            </div>
-          </div>
-          <!-- // Item -->
-          <!-- Item -->
-          <div class="item">
-            <div class="img-fill">
-                <img src="~/assets/images/slide-03.jpg" alt="">
-                <div class="text-content">
-                  <h3>Welcome,</h3>
-                  <h5>No pain, no gain.</h5>
-                </div>
-            </div>
-          </div>
-          <!-- // Item -->
-        </div>
-    </div>
-    <!-- ***** Main Banner Area End ***** -->
-
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -146,9 +93,7 @@ https://templatemo.com/tm-543-breezed
             <div class="row">
                 <div class="col-lg-6 col-xs-12">
                     <div class="left-text-content">
-                        <p>Copyright &copy; 2020 Breezed Co., Ltd. 
-                        
-                        - Design: <a rel="nofollow noopener" href="https://templatemo.com">TemplateMo</a></p>
+                        <p>Copyright &copy; 2020</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-xs-12">

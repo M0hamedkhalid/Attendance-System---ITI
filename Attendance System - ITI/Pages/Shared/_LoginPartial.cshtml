@@ -2,17 +2,27 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+@*<style>
+    ul.no-bullets {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+    }
+</style>
+<ul class="no-bullets">*@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="scroll-to-section">
+
+    <li class="scroll-to-section" style="list-style-type:none">
         <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
     </li>
 
     @*<li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
     </li>*@
-    <li class="nav-item">
+    <li class="scroll-to-section">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
             <button  type="submit" class="nav-link btn btn-link text-light">Logout</button>
         </form>
@@ -20,11 +30,11 @@
 }
 else
 {
-    <li class="scroll-to-section">
+    <li class="scroll-to-section" style="list-style-type:none">
         <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
     </li>
-    <li class="scroll-to-section">
+    <li class="scroll-to-section" style="list-style-type:none">
         <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
     </li>
 }
-
+@*</ul>*@
