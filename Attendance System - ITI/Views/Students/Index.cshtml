@@ -41,6 +41,7 @@
     </div>
 </form>
 
+<a asp-action="DownloadExcel"  >Export Student Data As ExcelSheet </a>
 @*<input type="text" id="searchtext" />
 <input type="submit" value="Filter" />
     @foreach(var item in ViewBag.StdList){
@@ -117,9 +118,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Credential.Id)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Department.Id)
             </td>
