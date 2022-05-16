@@ -13,7 +13,6 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace Attendance_System___ITI.Controllers
 {
-    [Authorize(Roles ="admin,instractor")]
     public class StudentsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -42,19 +41,25 @@ namespace Attendance_System___ITI.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string searchtext)
         {
-            var std = _context.Students.Where(a => a.Name.Contains(searchtext));
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
+
+            //var std = _context.Students.Where(a => a.Name.Contains(searchtext));
             //ViewBag.StdList = await std.ToListAsync();
-
+            List<Student> students;
             ViewData["CurrentFilter"] = searchtext;
-
+           
 
 
             if (!String.IsNullOrEmpty(searchtext))
             {
-                std = _context.Students.Where(a => a.Name.Contains(searchtext));
+                students = await _context.Students.Where(a => a.Name.Contains(searchtext)).ToListAsync();
+            }
+            else
+            {
+                students = await _context.Students.ToListAsync();
             }
 
-            return View(await std.AsNoTracking().ToListAsync());
+            return View( students);
         }
 
         // GET: Students/Details/5
