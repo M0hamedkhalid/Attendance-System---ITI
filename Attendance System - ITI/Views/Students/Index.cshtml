@@ -3,134 +3,98 @@
 @{
     ViewData["Title"] = "List of Students";
 }
+
 <div class="container">
-        <main role="main" class="pb-3">
-<h1 class="h-3 my-3 title">@ViewBag.Title</h1>
+    <main role="main" class="pb-3">
+        <h1 class="h-3 my-3 title">@ViewBag.Title</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
-@using (Html.BeginForm("Index", "Students", FormMethod.Get))
-    {
-        @Html.DropDownList("DeptID", ViewBag.DeptID as SelectList)
-        <input type="submit" value="Filter" />
-        @*foreach(var item in Model){
-        <input asp-for=@item.Student.selecteddept />
-        }*@
-    }
-
-@*@Html.DropDownList("DeptID", ViewBag.DeptID as SelectList)*@
-@*<select id="sd" asp-items="ViewBag.DeptID" onchange="change()"></select>
-@section scripts {
-    <script>
-        function change() {
-            let val = document.getElementById("sd").value;
-            let std = _context.Students.Where(a => a.DeptID == val);
-            return View(std);
-        }
-    </script>
-}*@
-<form asp-action="Index" method="post">
-    <div class="form-actions no-color">
-        <p>
-            Find by name: <input type="text" name="searchtext" value="@ViewData["CurrentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
-            <a asp-action="Index">Back to Full List</a>
-        </p>
-    </div>
-</form>
-
-<a asp-action="DownloadExcel"  >Export Student Data As ExcelSheet </a>
-@*<input type="text" id="searchtext" />
-<input type="submit" value="Filter" />
-    @foreach(var item in ViewBag.StdList){
+        <p><a asp-action="Create">Create New</a></p>
         
-        <a asp-for="@item.Student.Name" />
-        @Html.DropDownList("DeptID", ViewBag.DeptID as SelectList)
-    }
-*@
+        @using (Html.BeginForm("Index", "Students", FormMethod.Get))
+        {
+            @Html.DropDownList("DeptID", ViewBag.DeptID as SelectList)
+            <input type="submit" value="Filter" />
+        }
 
-@*<select asp-for="DeptID" class="form-control" asp-items="ViewBag.DeptID">
-    <option selected>Select Department</option>
-</select>*@
+        <form asp-action="Index" method="post">
+            <div class="form-actions no-color">
+                <p>
+                    Find by name: <input type="text" name="searchtext" value="@ViewData["CurrentFilter"]" />
+                    <input type="submit" value="Search" class="btn btn-default" /> |
+                    <a asp-action="Index">Back to Full List</a>
+                </p>
+            </div>
+        </form>
 
-@*<form>
-    <label asp-for=@ViewBag.searchtext />
-    <input asp-for=@Student.searchtext />
-    @Html.DropDownList("DeptID", ViewBag.DeptID as SelectList)
-    <input type="submit" value="Filter" />
-</form>*@
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GraduationYear)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GraduationGrade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mobile)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Faculty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.University)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Credential)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GraduationYear)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GraduationGrade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mobile)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Faculty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.University)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.Department.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+        <a asp-action="DownloadExcel"  >Export Student Data As ExcelSheet </a>
+
+        <table class="table text-center">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GraduationYear)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GraduationGrade)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Mobile)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Faculty)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.University)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Department)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Credential)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GraduationYear)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GraduationGrade)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mobile)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Faculty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.University)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Department.Id)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
 }
-    </tbody>
-</table>
-
-            </main>
-    </div>
+            </tbody>
+        </table>
+    </main>
+</div>

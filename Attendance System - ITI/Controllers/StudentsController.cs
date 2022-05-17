@@ -62,7 +62,7 @@ namespace Attendance_System___ITI.Controllers
                 students = await _context.Students.ToListAsync();
             }
 
-            return View( students);
+            return View(students);
         }
 
         // GET: Students/Details/5

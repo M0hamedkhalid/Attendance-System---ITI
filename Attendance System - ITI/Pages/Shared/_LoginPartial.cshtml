@@ -22,7 +22,7 @@
     @*<li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
     </li>*@
-    <li class="scroll-to-section">
+    <li class="scroll-to-section" style="list-style-type:none">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
             <button  type="submit" class="nav-link btn btn-link text-light">Logout</button>
         </form>
