@@ -11,6 +11,8 @@ using Attendance_System___ITI.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Mail;
 using System.Net;
+using System.Data;
+using ClosedXML.Excel;
 
 namespace Attendance_System___ITI.Controllers
 {
@@ -211,6 +213,38 @@ namespace Attendance_System___ITI.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
 
+        }
+        [HttpPost]
+        public IActionResult Export()
+        {
+            DataTable dt = new DataTable("Grid");
+            dt.Columns.AddRange(new DataColumn[14] { new DataColumn("Id"), new DataColumn("Name"),
+                                                     new DataColumn("GraduationYear"), new DataColumn("GraduationGrade"),
+                                                     new DataColumn("Mopile"), new DataColumn("Faculty"),
+                                                     new DataColumn("University"), new DataColumn("Address"),
+                                                     new DataColumn("DeptID"), new DataColumn("StudentStatus"),
+                                                     new DataColumn("Warning"), new DataColumn("Credential"),
+                                                     new DataColumn("Department"), new DataColumn("Attendances") 
+            });
+
+            var es = from Student in this._context.Students.Take(50) select Student;
+
+            foreach (var ems in es)
+            {
+                dt.Rows.Add(ems.Id, ems.Name,ems.GraduationYear,ems.GraduationGrade,ems.Mobile,
+                            ems.Faculty,ems.University,ems.Address,ems.DeptID,ems.StudentStatus,
+                            ems.Warning,ems.Credential,ems.Department,ems.Attendances);
+            }
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
+                }
+            }
         }
     }
 }
