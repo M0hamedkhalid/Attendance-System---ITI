@@ -4,6 +4,7 @@ using Attendance_System___ITI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Attendance_System___ITI.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220515125542_k")]
+    partial class k
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,34 +89,6 @@ namespace Attendance_System___ITI.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Attendance_System___ITI.Models.Attendance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<TimeSpan?>("ArriveTime")
-                        .HasColumnType("time");
-
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<TimeSpan?>("LeaveTime")
-                        .HasColumnType("time");
-
-                    b.Property<string>("StudentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("Attendances");
-                });
-
             modelBuilder.Entity("Attendance_System___ITI.Models.Department", b =>
                 {
                     b.Property<int>("Id")
@@ -158,37 +132,6 @@ namespace Attendance_System___ITI.Data.Migrations
                     b.ToTable("Instructors");
                 });
 
-            modelBuilder.Entity("Attendance_System___ITI.Models.Lecture", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeptID")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeptID");
-
-                    b.ToTable("Lectures");
-                });
-
             modelBuilder.Entity("Attendance_System___ITI.Models.Student", b =>
                 {
                     b.Property<string>("Id")
@@ -221,11 +164,6 @@ namespace Attendance_System___ITI.Data.Migrations
 
                     b.Property<string>("University")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Warning")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 
@@ -371,17 +309,6 @@ namespace Attendance_System___ITI.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Attendance_System___ITI.Models.Attendance", b =>
-                {
-                    b.HasOne("Attendance_System___ITI.Models.Student", "Student")
-                        .WithMany("Attendances")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Student");
-                });
-
             modelBuilder.Entity("Attendance_System___ITI.Models.Department", b =>
                 {
                     b.HasOne("Attendance_System___ITI.Models.Instructor", "Manger")
@@ -404,15 +331,6 @@ namespace Attendance_System___ITI.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Credential");
-
-                    b.Navigation("Department");
-                });
-
-            modelBuilder.Entity("Attendance_System___ITI.Models.Lecture", b =>
-                {
-                    b.HasOne("Attendance_System___ITI.Models.Department", "Department")
-                        .WithMany("Lectures")
-                        .HasForeignKey("DeptID");
 
                     b.Navigation("Department");
                 });
@@ -496,19 +414,12 @@ namespace Attendance_System___ITI.Data.Migrations
                 {
                     b.Navigation("Instructors");
 
-                    b.Navigation("Lectures");
-
                     b.Navigation("Students");
                 });
 
             modelBuilder.Entity("Attendance_System___ITI.Models.Instructor", b =>
                 {
                     b.Navigation("ManagedDepartment");
-                });
-
-            modelBuilder.Entity("Attendance_System___ITI.Models.Student", b =>
-                {
-                    b.Navigation("Attendances");
                 });
 #pragma warning restore 612, 618
         }

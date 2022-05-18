@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Attendance_System___ITI.Models.Student>
+﻿@using Attendance_System___ITI.Models
+
+@model IEnumerable<Attendance_System___ITI.Models.Student>
 
 @{
     ViewData["Title"] = "List of Students";
@@ -12,7 +14,7 @@
             <div class="col-6">
                 <br /><br /><br /><br /><br /><br />
                 <p><a asp-action="Create" class="btn btn-info">Create New</a></p><br />
-                <a asp-action="DownloadExcel" class="btn btn-success" >Export Student Data As ExcelSheet </a>
+                <a asp-controller="Students" asp-action="Export" class="btn btn-success" >Export Student Data As ExcelSheet </a>
             </div>
 
             <div class="col-6">
@@ -119,3 +121,5 @@
         </table>
     </main>
 </div>
+    </tbody>
+</table>

@@ -1,0 +1,64 @@
+﻿@page
+@using Attendance_System___ITI.Data
+
+@model InstractorRegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/RL_layout.cshtml";
+}
+
+
+<h2>Instractor Register</h2>
+
+
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post"class="rounded bg-white shadow p-5">
+            				<div class="logo">
+					<img src="/images/user.png" class="img-fluid" alt="logo">
+				</div>
+            <h3 class="text-dark fw-bolder fs-4 mb-2">Create an Account</h3>
+		    <div class="fw-normal text-muted mb-2">
+						Already have an account? <a asp-area="Identity" asp-page="/Account/Login" class="text-primary fw-bold text-decoration-none">login here</a>
+			</div>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating">
+                <select asp-for="Input.DeptId" class ="form-control" asp-items="ViewBag.DeptID">
+                     <option selected>Select Department</option>
+                </select>
+                 <label>Department</label>
+
+                <span asp-validation-for="Input.DeptId" class="text-danger"></span>
+            </div>
+
+           <div class="form-floating">
+                <input asp-for="Input.Name" class="form-control" autocomplete="Name" aria-required="true" />
+                <label asp-for="Input.Name"></label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+           <div class="form-floating">
+                <input asp-for="Input.Address" class="form-control" autocomplete="Address" aria-required="true" />
+                <label asp-for="Input.Address"></label>
+                <span asp-validation-for="Input.Address" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.Password"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.ConfirmPassword"></label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+        </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

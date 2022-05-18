@@ -9,6 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using Attendance_System___ITI.Data;
 using Attendance_System___ITI.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Mail;
+using System.Net;
+using System.Data;
+using ClosedXML.Excel;
+using Microsoft.AspNetCore.Identity;
+using Attendance_System___ITI.Areas.Identity.Pages.Account;
 using Microsoft.EntityFrameworkCore.Query;
 using System.Data;
 using System.Reflection;
@@ -19,9 +25,23 @@ namespace Attendance_System___ITI.Controllers
     public class StudentsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public StudentsController(ApplicationDbContext context)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly IUserEmailStore<ApplicationUser> _emailStore;
+        private readonly ILogger<StudentRegisterModel> _logger;
+
+        public StudentsController(ApplicationDbContext context,UserManager<ApplicationUser> userManager,
+            IUserStore<ApplicationUser> userStore,
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<StudentRegisterModel> logger)
         {
             _context = context;
+            _userManager = userManager;
+            _userStore = userStore;
+            _emailStore = GetEmailStore();
+            _signInManager = signInManager;
+            _logger = logger;
         }
 
         // GET: Students
@@ -77,6 +97,8 @@ namespace Attendance_System___ITI.Controllers
                 .Include(s => s.Credential)
                 .Include(s => s.Department)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.Warnings = student.Warning;
+
             if (student == null)
             {
                 return NotFound();
@@ -89,7 +111,7 @@ namespace Attendance_System___ITI.Controllers
         public IActionResult Create()
         {
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Id");
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
             return View();
         }
 
@@ -98,17 +120,40 @@ namespace Attendance_System___ITI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,GraduationYear,GraduationGrade,Mobile,Faculty,University,Address,DeptID")] Student student)
+        public async Task<IActionResult> Create(Student st)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", student.Id);
-            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Id", student.DeptID);
-            return View(student);
+
+
+            var user = CreateUser();
+
+            await _userStore.SetUserNameAsync(user,st.Credential.Email, CancellationToken.None);
+            await _emailStore.SetEmailAsync(user,st.Credential.Email, CancellationToken.None);
+            var result = await _userManager.CreateAsync(user);
+
+
+            _logger.LogInformation("Accout created to  Student by instractor and student must register");
+            var userId = await _userManager.GetUserIdAsync(user);
+
+            await _userManager.AddToRoleAsync(user, "student");
+
+
+            Student std = new Student();
+            std.Id = userId;
+            std.Name = st.Name;
+            std.Address = st.Address;
+            std.DeptID = st.DeptID;
+            std.Faculty = st.Faculty;
+            std.University = st.University;
+            std.GraduationGrade = st.GraduationGrade;
+            std.GraduationYear = st.GraduationYear;
+            std.Mobile = st.Mobile;
+            std.StudentStatus = 0;
+            _context.Add(std);
+            await _context.SaveChangesAsync();
+
+
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Students/Edit/5
@@ -201,58 +246,96 @@ namespace Attendance_System___ITI.Controllers
         {
             return _context.Students.Any(e => e.Id == id);
         }
-        public async Task<IActionResult> DownloadExcel()
+        public async Task<IActionResult> AddWarning(string Id)
         {
-            var students = await _context.Students.ToListAsync();
+            
+            var std = await _context.Students.Include(s => s.Credential).FirstOrDefaultAsync(s=> s.Id == Id);
+            string stdEmail = std.Credential.Email;
+            string sender= HttpContext.User.Identity.Name;
+            string email = $"Dear {std.Name}\n" +
+                $",\n As your instructor, I am writing because I am concerned about your current Attendance & grade in the course, and I want to help you get back on track to successfully complete the course.There are many resources for academic help \n" +
+                $"\n Regards,\n" +
+                $" {sender}";
+            if (std != null)
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient smtp = new SmtpClient();
+
+                message.From = new MailAddress("itiegypt2022@gmail.com");
+                message.To.Add(new MailAddress("mkhaledmohamed07@gmail.com"));
+                message.Subject = "Warning";
+                message.IsBodyHtml = false; //to make message body as html  
+                message.Body = email;
+                smtp.Port = 587;
+                smtp.Host = "smtp.gmail.com"; //for gmail host  
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential("itiegypt2022@gmail.com", "Iti20222021");
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(message);
+                std.Warning = std.Warning+1;
+                await _context.SaveChangesAsync();
+            }
+            return Redirect($"/Students/Details/{Id}");
+            
+        }
+
+        public async Task<IActionResult> Expel(string Id)
+        {
+            var std = await _context.Students.FirstOrDefaultAsync(s => s.Id == Id);
+             _context.Students.Remove(std);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
+        }
+        [HttpPost]
+        public IActionResult Export()
+        {
+            DataTable dt = new DataTable("Grid");
+            dt.Columns.AddRange(new DataColumn[14] { new DataColumn("Id"), new DataColumn("Name"),
+                                                     new DataColumn("GraduationYear"), new DataColumn("GraduationGrade"),
+                                                     new DataColumn("Mopile"), new DataColumn("Faculty"),
+                                                     new DataColumn("University"), new DataColumn("Address"),
+                                                     new DataColumn("DeptID"), new DataColumn("StudentStatus"),
+                                                     new DataColumn("Warning"), new DataColumn("Credential"),
+                                                     new DataColumn("Department"), new DataColumn("Attendances") 
+            });
+
+            var es = from Student in this._context.Students.Take(50) select Student;
+
+            foreach (var ems in es)
+            {
+                dt.Rows.Add(ems.Id, ems.Name,ems.GraduationYear,ems.GraduationGrade,ems.Mobile,
+                            ems.Faculty,ems.University,ems.Address,ems.DeptID,ems.StudentStatus,
+                            ems.Warning,ems.Credential,ems.Department,ems.Attendances);
+            }
+
             using (XLWorkbook wb = new XLWorkbook())
             {
-                DataTable stdDataTable = ToDataTable(students);
-                stdDataTable.Columns.Remove("Attendances");
-                stdDataTable.Columns.Remove("Department");
-                stdDataTable.Columns.Remove("Credential");
-
-                wb.Worksheets.Add(stdDataTable);
+                wb.Worksheets.Add(dt);
                 using (MemoryStream stream = new MemoryStream())
                 {
                     wb.SaveAs(stream);
-                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "students.xlsx");
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
                 }
             }
-
-
-
-
-
-
-
         }
-        private  DataTable ToDataTable<T>(List<T> items)
+
+        private ApplicationUser CreateUser()
         {
-            DataTable dataTable = new DataTable(typeof(T).Name);
 
-            //Get all the properties
-            PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (PropertyInfo prop in Props)
-            {
-                //Defining type of data column gives proper data table 
-                var type = (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) ? Nullable.GetUnderlyingType(prop.PropertyType) : prop.PropertyType);
-                //Setting column names as Property names
-                dataTable.Columns.Add(prop.Name, type);
-            }
-            foreach (T item in items)
-            {
-                var values = new object[Props.Length];
-                for (int i = 0; i < Props.Length; i++)
-                {
-                    //inserting property values to datatable rows
-                    values[i] = Props[i].GetValue(item, null);
-                }
-                dataTable.Rows.Add(values);
-            }
-            //put a breakpoint here and check datatable
-            return dataTable;
+                return Activator.CreateInstance<ApplicationUser>();
+  
+
         }
 
+        private IUserEmailStore<ApplicationUser> GetEmailStore()
+        {
+            if (!_userManager.SupportsUserEmail)
+            {
+                throw new NotSupportedException("The default UI requires a user store with email support.");
+            }
+            return (IUserEmailStore<ApplicationUser>)_userStore;
+        }
     }
-
 }

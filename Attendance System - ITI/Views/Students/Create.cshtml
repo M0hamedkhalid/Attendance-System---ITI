@@ -1,4 +1,7 @@
-﻿@model Attendance_System___ITI.Models.Student
+﻿@using Attendance_System___ITI.Models;
+@model Attendance_System___ITI.Models.Student
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+
 
 @{
     ViewData["Title"] = "Create";
@@ -39,6 +42,9 @@
                 <h5 class="text-center mb-4">Create new Student</h5>
         <form asp-action="Create" class="form-card">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Credential.Email" class="control-label"></label>
+                <input asp-for="Credential.Email" class="form-control" />
             <div class="form-group row justify-content-between text-left">
                 <label asp-for="Id" class="form-control-label px-3"></label>
                 <select asp-for="Id" class ="form-control" asp-items="ViewBag.Id"></select>

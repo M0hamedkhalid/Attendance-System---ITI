@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Attendance_System___ITI.Models.Student>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Attendance of Students</h1>
+<select id="selectA">
+    <option value="Attend">Attend</option>
+    <option value="Leave">Leave</option>
+</select>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                Attend/Leave
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="Attend">
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-action="Attend" asp-route-id="@item.Id">Attend</a>
+            </td>
+        </tr>
+
+}
+<tbody/>
+    <tbody id="Leave">
+
+@foreach (var s in ViewBag.Attended)
+            {
+              
+            <tr>
+            <td>
+               @s.Student.Name
+            </td>
+
+            <td>
+                <a asp-action="Leave" asp-route-id="@s.StudentId">Leave</a>
+            </td>
+        </tr>
+            }
+    </tbody>
+</table>
+@section Scripts
+{
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#Leave').hide();
+            $('#Attend').show();
+            $("#selectA").change(function () {
+                var currentdata = $("#" + $(this).val());
+                currentdata.show();
+
+                $('#Leave').not(currentdata).hide();
+                 $('#Attend').not(currentdata).hide();
+            });
+        })
+    </script>
+}
+

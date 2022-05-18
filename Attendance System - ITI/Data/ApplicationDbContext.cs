@@ -10,6 +10,7 @@ namespace Attendance_System___ITI.Data
         public DbSet<Department> Departments { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Instructor> Instructors { get; set; }
+        public DbSet<Lecture> Lectures { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options )
             : base(options)
         {
@@ -24,6 +25,8 @@ namespace Attendance_System___ITI.Data
             builder.Entity<Department>().HasMany(d => d.Instructors)
                         .WithOne(i => i.Department).HasForeignKey(i => i.DeptID);
             base.OnModelCreating(builder);
+
+            builder.Entity<Student>().Property(std => std.Warning).HasDefaultValue(0);
         }
     }
 }

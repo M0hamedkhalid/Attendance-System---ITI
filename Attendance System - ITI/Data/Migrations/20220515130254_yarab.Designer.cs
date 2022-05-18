@@ -4,6 +4,7 @@ using Attendance_System___ITI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Attendance_System___ITI.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220515130254_yarab")]
+    partial class yarab
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,37 +160,6 @@ namespace Attendance_System___ITI.Data.Migrations
                     b.ToTable("Instructors");
                 });
 
-            modelBuilder.Entity("Attendance_System___ITI.Models.Lecture", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeptID")
-                        .HasColumnType("int");
-
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeptID");
-
-                    b.ToTable("Lectures");
-                });
-
             modelBuilder.Entity("Attendance_System___ITI.Models.Student", b =>
                 {
                     b.Property<string>("Id")
@@ -221,11 +192,6 @@ namespace Attendance_System___ITI.Data.Migrations
 
                     b.Property<string>("University")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Warning")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
 
                     b.HasKey("Id");
 
@@ -408,15 +374,6 @@ namespace Attendance_System___ITI.Data.Migrations
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("Attendance_System___ITI.Models.Lecture", b =>
-                {
-                    b.HasOne("Attendance_System___ITI.Models.Department", "Department")
-                        .WithMany("Lectures")
-                        .HasForeignKey("DeptID");
-
-                    b.Navigation("Department");
-                });
-
             modelBuilder.Entity("Attendance_System___ITI.Models.Student", b =>
                 {
                     b.HasOne("Attendance_System___ITI.Models.Department", "Department")
@@ -495,8 +452,6 @@ namespace Attendance_System___ITI.Data.Migrations
             modelBuilder.Entity("Attendance_System___ITI.Models.Department", b =>
                 {
                     b.Navigation("Instructors");
-
-                    b.Navigation("Lectures");
 
                     b.Navigation("Students");
                 });
