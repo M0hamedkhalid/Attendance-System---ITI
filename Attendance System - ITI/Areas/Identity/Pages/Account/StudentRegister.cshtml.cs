@@ -113,12 +113,12 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
-            public string Password { get; set; }
+            public string? Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
+            public string? ConfirmPassword { get; set; }
         }
 
 
@@ -137,58 +137,81 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                var isexist = _context.Users.FirstOrDefault(x => x.PasswordHash == null && x.Email == Input.Email);
+                if (isexist == null) { 
                 var user = CreateUser();
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
-                
 
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account with password.");
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User created a new account with password.");
 
                         var userId = await _userManager.GetUserIdAsync(user);
-                    await _userManager.AddToRoleAsync(user, "student");
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    //var callbackUrl = Url.Page(
-                    //    "/Account/ConfirmEmail",
-                    //    pageHandler: null,
-                    //    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                    //    protocol: Request.Scheme);
+                        await _userManager.AddToRoleAsync(user, "student");
+                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                        //var callbackUrl = Url.Page(
+                        //    "/Account/ConfirmEmail",
+                        //    pageHandler: null,
+                        //    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        //    protocol: Request.Scheme);
 
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    //{
-                    //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    //}
-                    //else
-                    //{
-                    Student std = new Student();
-                    std.Id = userId;
-                    std.Name = Input.Name;
-                    std.Address = Input.Address;
-                    std.DeptID = Input.DeptId;
-                    std.Faculty = Input.Faculty;
-                    std.University = Input.University;
-                    std.GraduationGrade = Input.GraduationGrade;
-                    std.GraduationYear = Input.GraduationYear;
-                    std.Mobile = Input.Mobile;
-                    std.StudentStatus = 0;
-                    _context.Add(std);
-                    await _context.SaveChangesAsync();
-                    await _signInManager.SignInAsync(user, isPersistent: false);
+                        //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        //{
+                        //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        //}
+                        //else
+                        //{
+                        Student std = new Student();
+                        std.Id = userId;
+                        std.Name = Input.Name;
+                        std.Address = Input.Address;
+                        std.DeptID = Input.DeptId;
+                        std.Faculty = Input.Faculty;
+                        std.University = Input.University;
+                        std.GraduationGrade = Input.GraduationGrade;
+                        std.GraduationYear = Input.GraduationYear;
+                        std.Mobile = Input.Mobile;
+                        std.StudentStatus = 0;
+                        _context.Add(std);
+                        await _context.SaveChangesAsync();
+                        await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
+                        //}
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                }
+                else
+                {
+                    isexist.PasswordHash = Input.Password;
+                    //var result = await _userManager.ChangePasswordAsync(isexist,String.Empty, Input.Password);
+
+                    //if (result.Succeeded)
+                    //{
+                        _logger.LogInformation("User added password account with password.");
+
+                        await _context.SaveChangesAsync();
+                        await _signInManager.SignInAsync(isexist, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    //    //}
+                    //}
+                    //foreach (var error in result.Errors)
+                    //{
+                    //    ModelState.AddModelError(string.Empty, error.Description);
                     //}
                 }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+
             }
 
             // If we got this far, something failed, redisplay form

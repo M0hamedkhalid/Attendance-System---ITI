@@ -11,6 +11,8 @@ using Attendance_System___ITI.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Mail;
 using System.Net;
+using Microsoft.AspNetCore.Identity;
+using Attendance_System___ITI.Areas.Identity.Pages.Account;
 
 namespace Attendance_System___ITI.Controllers
 {
@@ -18,10 +20,23 @@ namespace Attendance_System___ITI.Controllers
     public class StudentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly IUserEmailStore<ApplicationUser> _emailStore;
+        private readonly ILogger<StudentRegisterModel> _logger;
 
-        public StudentsController(ApplicationDbContext context)
+        public StudentsController(ApplicationDbContext context,UserManager<ApplicationUser> userManager,
+            IUserStore<ApplicationUser> userStore,
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<StudentRegisterModel> logger)
         {
             _context = context;
+            _userManager = userManager;
+            _userStore = userStore;
+            _emailStore = GetEmailStore();
+            _signInManager = signInManager;
+            _logger = logger;
         }
 
         // GET: Students
@@ -67,17 +82,40 @@ namespace Attendance_System___ITI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,GraduationYear,GraduationGrade,Mobile,Faculty,University,Address,DeptID")] Student student)
+        public async Task<IActionResult> Create(Student st)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", student.Id);
-            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Id", student.DeptID);
-            return View(student);
+
+
+            var user = CreateUser();
+
+            await _userStore.SetUserNameAsync(user,st.Credential.Email, CancellationToken.None);
+            await _emailStore.SetEmailAsync(user,st.Credential.Email, CancellationToken.None);
+            var result = await _userManager.CreateAsync(user);
+
+
+            _logger.LogInformation("Accout created to  Student by instractor and student must register");
+            var userId = await _userManager.GetUserIdAsync(user);
+
+            await _userManager.AddToRoleAsync(user, "student");
+
+
+            Student std = new Student();
+            std.Id = userId;
+            std.Name = st.Name;
+            std.Address = st.Address;
+            std.DeptID = st.DeptID;
+            std.Faculty = st.Faculty;
+            std.University = st.University;
+            std.GraduationGrade = st.GraduationGrade;
+            std.GraduationYear = st.GraduationYear;
+            std.Mobile = st.Mobile;
+            std.StudentStatus = 0;
+            _context.Add(std);
+            await _context.SaveChangesAsync();
+
+
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Students/Edit/5
@@ -211,6 +249,23 @@ namespace Attendance_System___ITI.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
 
+        }
+
+        private ApplicationUser CreateUser()
+        {
+
+                return Activator.CreateInstance<ApplicationUser>();
+  
+
+        }
+
+        private IUserEmailStore<ApplicationUser> GetEmailStore()
+        {
+            if (!_userManager.SupportsUserEmail)
+            {
+                throw new NotSupportedException("The default UI requires a user store with email support.");
+            }
+            return (IUserEmailStore<ApplicationUser>)_userStore;
         }
     }
 }
