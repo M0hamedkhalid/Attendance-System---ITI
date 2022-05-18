@@ -19,7 +19,7 @@
  
     <li class="scroll-to-section" style="list-style-type:none">
         <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullname</a>
-    </li>*@
+    </li>
     <li class="scroll-to-section" style="list-style-type:none">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
             <button  type="submit" class="nav-link btn btn-link text-light">Logout</button>
@@ -29,7 +29,7 @@
     else
     {
         <li class="scroll-to-section" style="list-style-type:none">
-        <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+        @*<a asp-area="Identity" asp-page="/Account/Register">Register</a>*@
     </li>
     <li class="scroll-to-section" style="list-style-type:none">
         <a  asp-area="Identity" asp-page="/Account/Login">Login</a>
