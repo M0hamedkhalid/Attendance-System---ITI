@@ -323,10 +323,7 @@ namespace Attendance_System___ITI.Controllers
 
         private ApplicationUser CreateUser()
         {
-
-                return Activator.CreateInstance<ApplicationUser>();
-  
-
+            return Activator.CreateInstance<ApplicationUser>();
         }
 
         private IUserEmailStore<ApplicationUser> GetEmailStore()
