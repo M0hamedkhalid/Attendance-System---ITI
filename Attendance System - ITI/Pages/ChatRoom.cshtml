@@ -142,7 +142,7 @@
 
             })
             con.on('someoneSentMessage', function(msg, sender, date, time) {
-                const msgDiv = document.getElementsById("msg_history");
+                let msgDiv = document.getElementById("msg_history");
                 let insideHtml = msgDiv.innerHTML;
 
                 let newHtml = ` <div class="incoming_msg">
