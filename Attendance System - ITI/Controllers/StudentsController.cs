@@ -293,7 +293,7 @@ namespace Attendance_System___ITI.Controllers
             DataTable dt = new DataTable("Grid");
             dt.Columns.AddRange(new DataColumn[] { new DataColumn("Id"), new DataColumn("Name"),
                                                      new DataColumn("GraduationYear"), new DataColumn("GraduationGrade"),
-                                                     new DataColumn("Mobile"), new DataColumn("Faculty"),
+                                                     new DataColumn("Mob1ile"), new DataColumn("Faculty"),
                                                      new DataColumn("University"), new DataColumn("Address"),
                                                      new DataColumn("Department"),
                                                      new DataColumn("Warning")
