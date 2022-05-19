@@ -5,59 +5,64 @@
 
 @{
     ViewData["Title"] = "Register";
-    Layout = "~/Views/Shared/RL_layout.cshtml";
+    Layout = "~/Pages/Shared/_Layout1.cshtml";
 }
 
-
-<h2>Instractor Register</h2>
-
-
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post"class="rounded bg-white shadow p-5">
-            				<div class="logo">
-					<img src="/images/user.png" class="img-fluid" alt="logo">
-				</div>
-            <h3 class="text-dark fw-bolder fs-4 mb-2">Create an Account</h3>
-		    <div class="fw-normal text-muted mb-2">
-						Already have an account? <a asp-area="Identity" asp-page="/Account/Login" class="text-primary fw-bold text-decoration-none">login here</a>
-			</div>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-                <select asp-for="Input.DeptId" class ="form-control" asp-items="ViewBag.DeptID">
-                     <option selected>Select Department</option>
-                </select>
-                 <label>Department</label>
-
-                <span asp-validation-for="Input.DeptId" class="text-danger"></span>
+<section class="vh-200 bg-image" style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp');">
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                    <section class="card" style="border-radius: 15px;">
+                        <section class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-5">Instructor Register</h2>
+                            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post"class="rounded bg-white shadow p-5">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-floating form-outline mb-3">
+                                    <select asp-for="Input.DeptId" class ="form-control" asp-items="ViewBag.DeptID">
+                                        <option selected>Select Department</option>
+                                    </select>
+                                    <label>Department</label>
+                                    <span asp-validation-for="Input.DeptId" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating form-outline mb-3">
+                                    <input asp-for="Input.Name" class="form-control" autocomplete="Name" aria-required="true" />
+                                    <label asp-for="Input.Name"></label>
+                                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating form-outline mb-3">
+                                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                                    <label asp-for="Input.Email"></label>
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating form-outline mb-3">
+                                    <input asp-for="Input.Address" class="form-control" autocomplete="Address" aria-required="true" />
+                                    <label asp-for="Input.Address"></label>
+                                    <span asp-validation-for="Input.Address" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating form-outline mb-3">
+                                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                                    <label asp-for="Input.Password"></label>
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                                <div class="form-floating form-outline mb-3">
+                                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                                    <label asp-for="Input.ConfirmPassword"></label>
+                                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                                </div>
+                                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+                                <hr />
+                                <div class="fw-normal text-muted mb-2">
+						            Already have an account? <a asp-area="Identity" asp-page="/Account/Login" class="text-primary fw-bold text-decoration-none">login here</a>
+			                    </div>
+                            </form>
+                        </section>
+                    </section>
+                </div>
             </div>
-
-           <div class="form-floating">
-                <input asp-for="Input.Name" class="form-control" autocomplete="Name" aria-required="true" />
-                <label asp-for="Input.Name"></label>
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                <label asp-for="Input.Email"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-           <div class="form-floating">
-                <input asp-for="Input.Address" class="form-control" autocomplete="Address" aria-required="true" />
-                <label asp-for="Input.Address"></label>
-                <span asp-validation-for="Input.Address" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
-                <label asp-for="Input.Password"></label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
-                <label asp-for="Input.ConfirmPassword"></label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
+        </div>
+    </div>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
