@@ -13,7 +13,6 @@
          fullname = user.Instructor?.Name ?? user.Student?.Name;
     }
 }
-<ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="scroll-to-section" style="list-style-type:none">
@@ -27,11 +26,16 @@
     }
     else
     {
-        @*<li class="scroll-to-section" style="list-style-type:none">
-            <a asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>*@
         <li class="scroll-to-section" style="list-style-type:none">
-            <a  asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
+            <a class="dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Register
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarLightDropdownMenuLink" style="background-color:#2BCAA5">
+                <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/InstractorRegister">Instractor</a></li>
+                <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/StudentRegister">Student</a></li>
+            </ul>
+    </li>
+    <li class="scroll-to-section" style="list-style-type:none">
+        <a  asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
     }
-</ul>
