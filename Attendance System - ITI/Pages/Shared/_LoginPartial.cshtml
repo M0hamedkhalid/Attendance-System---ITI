@@ -25,11 +25,15 @@
           if (role=="student")
              {
                         <li class="scroll-to-section"><a asp-controller="Schedule" asp-action="Index">Schedule</a></li>
-                                    <a class="scroll-to-section ml-5 nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullname</a>
-                     
-               <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-                <button  type="submit" class="nav-link btn btn-link font-weight-bold text-dark" >Logout</button>
-               </form>
+                        <li class="scroll-to-section">  
+                              <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullname</a>
+                        </li> 
+                        <li>
+                              <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
+                              <button  type="submit" class="nav-link btn btn-link font-weight-bold text-dark" >Logout</button>
+                              </form>
+                        </li>
+
              }
              else if (role=="instractor")
              {
