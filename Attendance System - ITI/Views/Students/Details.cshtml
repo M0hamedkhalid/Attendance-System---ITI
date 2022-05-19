@@ -23,101 +23,69 @@ dt {
             </span>
             <hr />
             <dl class="row list-item">
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GraduationYear)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GraduationYear)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GraduationGrade)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GraduationGrade)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mobile)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mobile)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Faculty)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Faculty)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.University)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.University)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Department)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Department.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            Comments
-        </dt>
-        <dd class = "col-sm-10">
-           This Student Has @ViewBag.Warnings Warnings
-        </dd>
-        <dt class = "col-sm-2">
-            Operations
-        </dt>
-        <dd class = "col-sm-10">
-            <a asp-action="AddWarning" asp-route-id="@Model?.Id" onclick="alert('A Warnning Has Been Sent')">Add Warning</a>
-            <a asp-action="Expel" asp-route-id="@Model?.Id"  >Expel</a>
-        </dd>
-    </dl>
-    <div class="justify-content-center align-items-center" style="background:rgba(255,255,255,0.8)">
-    <div class="container-contact3-form-btn"  style="width:20rem;">
-    <form>
-        <a asp-action="Edit" asp-route-id="@Model?.Id" class="contact3-form-btn" style="background:#2BCAA5">Edit</a><br />
-        <a asp-action="Index" class="contact3-form-btn" style="background:#2BCAA5">Back to List</a>
-        </form>
-    </div>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.GraduationYear)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.GraduationYear)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.GraduationGrade)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.GraduationGrade)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Mobile)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Mobile)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Faculty)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Faculty)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.University)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.University)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+                <dt class = "col-sm-2">
+                    @Html.DisplayNameFor(model => model.Department)
+                </dt>
+                <dd class = "col-sm-10">
+                    @Html.DisplayFor(model => model.Department.Id)
+                </dd>
+                <dt class = "col-sm-2">
+                    Comments
+                </dt>
+                <dd class = "col-sm-10">
+                    This Student Has @ViewBag.Warnings Warnings
+                </dd>
+            </dl>
+            <div class="justify-content-center align-items-center" style="background:rgba(255,255,255,0.8)">
+                <div class="container-contact3-form-btn"  style="width:20rem;">
+                    <form>
+                        <a asp-action="Edit" asp-route-id="@Model?.Id" class="contact3-form-btn" style="background:#2BCAA5">Edit</a><br />
+                        <a asp-action="Index" class="contact3-form-btn" style="background:#2BCAA5">Back to List</a>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-</div>
-</div>
-@*<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-
-<script src="vendor/bootstrap/js/popper.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-<script src="vendor/select2/select2.min.js"></script>
-<script>
-		$(".selection-2").select2({
-			minimumResultsForSearch: 20,
-			dropdownParent: $('#dropDownSelect1')
-		});
-	</script>
-
-<script src="js/main.js"></script>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-23581568-13');
-</script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v652eace1692a40cfa3763df669d7439c1639079717194" integrity="sha512-Gi7xpJR8tSkrpF7aordPZQlW2DLtzUlZcumS8dMQjwDHEnw9I7ZLyiOj/6tZStRBGtGgN6ceN6cMH8z7etPGlw==" data-cf-beacon='{"rayId":"70ce4445f8f46f4f","token":"cd0b4b3a733644fc843ef0b185f98241","version":"2021.12.0","si":100}' crossorigin="anonymous"></script>
-*@

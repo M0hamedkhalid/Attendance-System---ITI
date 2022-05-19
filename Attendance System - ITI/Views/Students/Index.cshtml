@@ -15,6 +15,7 @@
                 <br /><br /><br /><br /><br /><br />
                 <p><a asp-action="Create" class="btn btn-info">Create New</a></p><br />
                 <a asp-controller="Students" asp-action="Export" class="btn btn-success" >Export Student Data As ExcelSheet </a>
+                @*<a asp-action="DownloadExcel" class="btn btn-success" >Export Student Data As ExcelSheet </a>*@
             </div>
 
             <div class="col-6">
@@ -66,7 +67,8 @@
                         @Html.DisplayNameFor(model => model.Department)
                     </th>
                     <th class="th-lg">
-                        @Html.DisplayNameFor(model => model.Credential)
+                        @*@Html.DisplayNameFor(model => model.Credential)*@
+                        Operations
                     </th>
                 </tr>
             </thead>
