@@ -194,7 +194,7 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    isexist.PasswordHash = Input.Password;
+                    isexist.PasswordHash = _userManager.PasswordHasher.HashPassword(isexist,Input.Password);
                     //var result = await _userManager.ChangePasswordAsync(isexist,String.Empty, Input.Password);
 
                     //if (result.Succeeded)
