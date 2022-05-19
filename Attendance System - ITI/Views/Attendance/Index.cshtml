@@ -20,9 +20,6 @@
                     <th class="th-lg">
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
-                    @*<th class="th-lg">
-                        Attend/Leave
-                    </th>*@
                 </tr>
             </thead>
 
@@ -32,9 +29,6 @@
                     <td>
                         <a asp-action="Attend" asp-route-id="@item.Id" style="width:100px;color:black">@Html.DisplayFor(modelItem => item.Name)</a>
                     </td>
-                    @*<td>
-                        <a asp-action="Attend" asp-route-id="@item.Id" class="btn btn-info" style="width:100px">Attend</a>
-                    </td>*@
                 </tr>
             }
             <tbody/>
@@ -43,11 +37,8 @@
             @foreach (var s in ViewBag.Attended){
                 <tr>
                     <td>
-                        <a asp-action="Attend" asp-route-id="@s.Id" style="width:100px;color:black">@s.Student.Name</a>
+                        <a asp-action="Leave" asp-route-id="@s.StudentId" style="width:100px;color:black">@s.Student.Name</a>
                     </td>
-                    @*<td>
-                        <a asp-action="Leave" asp-route-id="@s.StudentId" class="btn btn-danger" style="width:100px">Leave</a>
-                    </td>*@
                 </tr>
             }
             </tbody>
