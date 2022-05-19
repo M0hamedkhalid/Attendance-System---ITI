@@ -170,7 +170,7 @@ namespace Attendance_System___ITI.Controllers
                 return NotFound();
             }
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", student.Id);
-            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Id", student.DeptID);
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
             return View(student);
         }
 
@@ -207,7 +207,7 @@ namespace Attendance_System___ITI.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", student.Id);
-            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Id", student.DeptID);
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
             return View(student);
         }
 
@@ -288,26 +288,25 @@ namespace Attendance_System___ITI.Controllers
             return RedirectToAction(nameof(Index));
 
         }
-        [HttpPost]
         public IActionResult Export()
         {
             DataTable dt = new DataTable("Grid");
-            dt.Columns.AddRange(new DataColumn[14] { new DataColumn("Id"), new DataColumn("Name"),
+            dt.Columns.AddRange(new DataColumn[] { new DataColumn("Id"), new DataColumn("Name"),
                                                      new DataColumn("GraduationYear"), new DataColumn("GraduationGrade"),
-                                                     new DataColumn("Mopile"), new DataColumn("Faculty"),
+                                                     new DataColumn("Mobile"), new DataColumn("Faculty"),
                                                      new DataColumn("University"), new DataColumn("Address"),
-                                                     new DataColumn("DeptID"), new DataColumn("StudentStatus"),
-                                                     new DataColumn("Warning"), new DataColumn("Credential"),
-                                                     new DataColumn("Department"), new DataColumn("Attendances") 
+                                                     new DataColumn("Department"),
+                                                     new DataColumn("Warning")
             });
 
-            var es = from Student in this._context.Students.Take(50) select Student;
+
+            var es = from Student in this._context.Students.Include(s=>s.Department) select Student;
 
             foreach (var ems in es)
             {
                 dt.Rows.Add(ems.Id, ems.Name,ems.GraduationYear,ems.GraduationGrade,ems.Mobile,
-                            ems.Faculty,ems.University,ems.Address,ems.DeptID,ems.StudentStatus,
-                            ems.Warning,ems.Credential,ems.Department,ems.Attendances);
+                            ems.Faculty,ems.University,ems.Address,ems.Department.Name,
+                            ems.Warning);
             }
 
             using (XLWorkbook wb = new XLWorkbook())
@@ -316,7 +315,7 @@ namespace Attendance_System___ITI.Controllers
                 using (MemoryStream stream = new MemoryStream())
                 {
                     wb.SaveAs(stream);
-                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Grid.xlsx");
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Students.xlsx");
                 }
             }
         }
