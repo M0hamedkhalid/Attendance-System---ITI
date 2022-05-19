@@ -22,6 +22,7 @@ using ClosedXML.Excel;
 
 namespace Attendance_System___ITI.Controllers
 {
+    [Authorize(Roles ="instractor")]
     public class StudentsController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -21,13 +21,6 @@ dt {
             <span class="contact3-form-title" style="color:black">
                 Student's Details
             </span>
-                            <dt class = "col-sm" style="color:red">
-                    Comments
-                </dt>
-                <dd class = "col-sm-10">
-                    This Student Has @ViewBag.Warnings Warnings
-                </dd>
-            <hr />
             <dl class="row list-item">
                 <dt class = "col-sm-2">
                     @Html.DisplayNameFor(model => model.Name)
@@ -77,11 +70,22 @@ dt {
                 <dd class = "col-sm-10">
                     @Html.DisplayFor(model => model.Department.Name)
                 </dd>
-
             </dl>
+            <hr />
+            <dl>
+                <dt class = "col-sm" style="color:red">
+                    Comments
+                </dt>
+                <dd class = "col-sm-10">
+                    This Student Has @ViewBag.Warnings Warnings
+                </dd>
+            </dl>
+            <a asp-controller="Students" asp-action="AddWarning" class="contact3-form-btn" style="background:#2BCAA5">Add Warning</a>
+            <a asp-controller="Students" asp-action="Expel" class="contact3-form-btn" style="background:red">Expel</a>
+            <hr />
             <div class="justify-content-center align-items-center" style="background:rgba(255,255,255,0.8)">
 
-                <div class="container-contact3-form-btn"  style="width:20rem;">
+                <div class="container-contact3-form-btn">
                     <form>
                         <a asp-action="Edit" asp-route-id="@Model?.Id" class="contact3-form-btn" style="background:#2BCAA5">Edit</a><br />
                         <a asp-action="Index" class="contact3-form-btn" style="background:#2BCAA5">Back to List</a>

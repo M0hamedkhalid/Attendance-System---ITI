@@ -1,55 +1,60 @@
 ﻿@model IEnumerable<Attendance_System___ITI.Models.Student>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Students' Attendance";
+    Layout = "~/Pages/Shared/_Layout1.cshtml";
 }
 
-<h1>Attendance of Students</h1>
-<select id="selectA">
-    <option value="Attend">Attend</option>
-    <option value="Leave">Leave</option>
-</select>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                Attend/Leave
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody id="Attend">
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Attend" asp-route-id="@item.Id">Attend</a>
-            </td>
-        </tr>
+<div class="container">
+    <main role="main" class="pb-3">
+        <h1 class="h-3 my-3 title">@ViewBag.Title</h1>
+        <div class="row justify-content-center align-items-center h-100">
+            <select id="selectA" class = "form form-control" style = "width:350px">
+                <option value="Attend">Attend</option>
+                <option value="Leave">Leave</option>
+            </select>
+        </div>
+        <hr />
+        <table class="table text-center table-hover mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th class="th-lg">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    @*<th class="th-lg">
+                        Attend/Leave
+                    </th>*@
+                </tr>
+            </thead>
 
-}
-<tbody/>
-    <tbody id="Leave">
-
-@foreach (var s in ViewBag.Attended)
-            {
-              
-            <tr>
-            <td>
-               @s.Student.Name
-            </td>
-
-            <td>
-                <a asp-action="Leave" asp-route-id="@s.StudentId">Leave</a>
-            </td>
-        </tr>
+            <tbody id="Attend">
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        <a asp-action="Attend" asp-route-id="@item.Id" style="width:100px;color:black">@Html.DisplayFor(modelItem => item.Name)</a>
+                    </td>
+                    @*<td>
+                        <a asp-action="Attend" asp-route-id="@item.Id" class="btn btn-info" style="width:100px">Attend</a>
+                    </td>*@
+                </tr>
             }
-    </tbody>
-</table>
+            <tbody/>
+
+            <tbody id="Leave">
+            @foreach (var s in ViewBag.Attended){
+                <tr>
+                    <td>
+                        <a asp-action="Attend" asp-route-id="@s.Id" style="width:100px;color:black">@s.Student.Name</a>
+                    </td>
+                    @*<td>
+                        <a asp-action="Leave" asp-route-id="@s.StudentId" class="btn btn-danger" style="width:100px">Leave</a>
+                    </td>*@
+                </tr>
+            }
+            </tbody>
+        </table>
+    </main>
+</div>
+
 @section Scripts
 {
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -67,4 +72,3 @@
         })
     </script>
 }
-
