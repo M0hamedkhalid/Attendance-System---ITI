@@ -186,8 +186,6 @@ namespace Attendance_System___ITI.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
                 try
                 {
                     _context.Update(student);
@@ -205,7 +203,7 @@ namespace Attendance_System___ITI.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
+            
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", student.Id);
             ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
             return View(student);
