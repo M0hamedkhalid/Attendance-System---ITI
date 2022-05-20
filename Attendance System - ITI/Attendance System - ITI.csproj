@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\chats\" />
     <Folder Include="Views\Attendance\" />
   </ItemGroup>
 

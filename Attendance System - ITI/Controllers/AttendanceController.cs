@@ -10,6 +10,7 @@ using Attendance_System___ITI.Models;
 using Microsoft.AspNetCore.Authorization;
 namespace Attendance_System___ITI.Controllers
 {
+    [Authorize(Roles = "instractor,admin")]
     public class AttendanceController : Controller
     {
         private readonly ApplicationDbContext _context;

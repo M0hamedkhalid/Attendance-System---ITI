@@ -1,11 +1,13 @@
 ﻿using Attendance_System___ITI.Data;
 using Attendance_System___ITI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Attendance_System___ITI.Controllers
 {
+    [Authorize]
     public class ScheduleController : Controller
     {
         private readonly ApplicationDbContext _context;

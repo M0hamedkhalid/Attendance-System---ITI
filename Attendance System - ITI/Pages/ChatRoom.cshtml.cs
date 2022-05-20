@@ -1,11 +1,13 @@
 using Attendance_System___ITI.Data;
 using Attendance_System___ITI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Attendance_System___ITI.Pages
 {
+    [Authorize]
     public class ChatRoomModel : PageModel
     {
         private readonly ApplicationDbContext _dbContext;

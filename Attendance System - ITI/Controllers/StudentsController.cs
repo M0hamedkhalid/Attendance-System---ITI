@@ -46,6 +46,7 @@ namespace Attendance_System___ITI.Controllers
 
         // GET: Students
         [HttpGet]
+        [Authorize(Roles = "instractor,admin")]
         public async Task<IActionResult> Index(int? DeptID)
         {
             if (DeptID == null)
@@ -62,6 +63,8 @@ namespace Attendance_System___ITI.Controllers
             }
         }
         [HttpPost]
+        [Authorize(Roles = "instractor,admin")]
+
         public async Task<IActionResult> Index(string searchtext)
         {
             ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
@@ -86,6 +89,7 @@ namespace Attendance_System___ITI.Controllers
         }
 
         // GET: Students/Details/5
+
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -108,6 +112,7 @@ namespace Attendance_System___ITI.Controllers
         }
 
         // GET: Students/Create
+        [Authorize(Roles = "instractor,admin")]
         public IActionResult Create()
         {
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Id");
@@ -120,6 +125,7 @@ namespace Attendance_System___ITI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "instractor,admin")]
         public async Task<IActionResult> Create(Student st)
         {
 
@@ -157,6 +163,7 @@ namespace Attendance_System___ITI.Controllers
         }
 
         // GET: Students/Edit/5
+        [Authorize(Roles = "instractor,admin")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -179,6 +186,7 @@ namespace Attendance_System___ITI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "instractor,admin")]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name,GraduationYear,GraduationGrade,Mobile,Faculty,University,Address,DeptID")] Student student)
         {
             if (id != student.Id)
@@ -210,6 +218,8 @@ namespace Attendance_System___ITI.Controllers
         }
 
         // GET: Students/Delete/5
+        [Authorize(Roles = "instractor,admin")]
+
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -231,6 +241,7 @@ namespace Attendance_System___ITI.Controllers
 
         // POST: Students/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "instractor,admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
@@ -244,6 +255,8 @@ namespace Attendance_System___ITI.Controllers
         {
             return _context.Students.Any(e => e.Id == id);
         }
+        [Authorize(Roles = "instractor,admin")]
+
         public async Task<IActionResult> AddWarning(string Id)
         {
             
@@ -277,6 +290,7 @@ namespace Attendance_System___ITI.Controllers
             return Redirect($"/Students/Details/{Id}");
             
         }
+        [Authorize(Roles = "instractor,admin")]
 
         public async Task<IActionResult> Expel(string Id)
         {
@@ -286,6 +300,8 @@ namespace Attendance_System___ITI.Controllers
             return RedirectToAction(nameof(Index));
 
         }
+        [Authorize(Roles = "instractor,admin")]
+
         public IActionResult Export()
         {
             DataTable dt = new DataTable("Grid");

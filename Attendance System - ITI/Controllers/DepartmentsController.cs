@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Attendance_System___ITI.Controllers
 {
+    [Authorize(Roles = "instractor,admin")]
     public class DepartmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
