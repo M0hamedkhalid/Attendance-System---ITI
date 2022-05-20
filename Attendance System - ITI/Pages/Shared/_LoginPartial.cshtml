@@ -7,9 +7,9 @@
     string role = "";
     if (SignInManager.IsSignedIn(User))
     {
-        var user = (await UserManager.GetUserAsync(User));
-        dbContext.Entry(user).Reference(u => u.Student).Load();
-        dbContext.Entry(user).Reference(u => u.Instructor).Load();
+        var user = (UserManager.GetUserAsync(User)).Result;
+        await dbContext.Entry(user).Reference(u => u.Student).LoadAsync();
+        await dbContext.Entry(user).Reference(u => u.Instructor).LoadAsync();
 
         fullname = user.Instructor?.Name ?? user.Student?.Name;
        var roles =await UserManager.GetRolesAsync(user);

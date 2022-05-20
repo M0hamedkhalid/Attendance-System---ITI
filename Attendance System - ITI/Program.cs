@@ -1,4 +1,5 @@
 using Attendance_System___ITI.Data;
+using Attendance_System___ITI.Hubs;
 using Attendance_System___ITI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(option =>
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
-
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -43,9 +44,11 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapRazorPages();
+
+app.MapHub<ChatHub>("/chathub"); 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
+app.MapRazorPages();
 
 app.Run();
