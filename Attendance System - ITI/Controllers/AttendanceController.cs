@@ -13,19 +13,30 @@ namespace Attendance_System___ITI.Controllers
     public class AttendanceController : Controller
     {
         private readonly ApplicationDbContext _context;
+        [BindProperty(SupportsGet =true)]
+        public string DepartmentID { get; set; }
 
         public AttendanceController(ApplicationDbContext context)
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int DepartmentId)
         {
-            var applicationDbContext = _context.Students.Where(S=>S.StudentStatus==0);
             ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
-            var attended = _context.Attendances.Include(a=>a.Student).Where(A => A.LeaveTime == null&&A.Date==DateTime.Now.Date&&A.Student.StudentStatus==1);
+            if (DepartmentId != 0)
+            {
+                AttendanceViewModel viewModel = new AttendanceViewModel();
+                viewModel.DepartmentId = DepartmentId;
+                int deptId = int.Parse(DepartmentID);
+                var applicationDbContext = _context.Students.Where(S => S.StudentStatus == 0 && S.DeptID == deptId).Include(S => S.Department);
+                var attended = _context.Attendances.Include(a => a.Student).Where(A => A.LeaveTime == null && A.Date == DateTime.Now.Date && A.Student.StudentStatus == 1);
 
-            ViewBag.Attended =await attended.ToListAsync();
-            return View(await applicationDbContext.ToListAsync());
+                ViewBag.Attended = await attended.ToListAsync();
+                viewModel.Students = await applicationDbContext.ToListAsync();
+                return View(viewModel);
+            }
+            return View();
+            
         }
         public async Task<IActionResult> Attend(string id)
         {
