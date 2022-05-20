@@ -9,8 +9,17 @@
         <h1 class="h-3 my-3 title">@ViewBag.Title</h1>
         <div class="row justify-content-center align-items-center h-100">
             <div><select id="selectA" class = "form form-control" style = "width:350px">
-                <option value="Attend">Attend</option>
-                <option value="Leave">Leave</option>
+                @if (Model?.Flag == "attend" | Model?.Flag == null )
+                    {
+                        <option value="Attend" selected>Attend</option>
+                        <option value="Leave">Leave</option>
+                    }
+                    else
+                    {
+                         <option value="Attend" >Attend</option>
+                        <option value="Leave" selected>Leave</option>
+                    }
+
             </select></div>
             <div>
                 <form>
@@ -40,7 +49,7 @@
                     {
                         <tr>
                             <td>
-                                <a asp-action="Attend" asp-route-id="@item.Id" style="width:100px;color:black">@Html.DisplayFor(modelItem => item.Name)</a>
+                                <a asp-action="Attend" asp-route-id="@item.Id" asp-route-DepartmentId="@item.DeptID"  style="width:100px;color:black">@Html.DisplayFor(modelItem => item.Name)</a>
                             </td>
                         </tr>
                     }
@@ -55,7 +64,7 @@
                         {
                             <tr>
                                 <td>
-                                    <a asp-action="Leave" asp-route-id="@s.StudentId" style="width:100px;color:black">@s.Student.Name</a>
+                                    <a asp-action="Leave" asp-route-id="@s.StudentId" asp-route-DepartmentId="@s.Student.DeptID" style="width:100px;color:black">@s.Student.Name</a>
                                 </td>
                             </tr>
                         }
@@ -71,8 +80,13 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(function () {
-            $('#Leave').hide();
-            $('#Attend').show();
+            if ($("#selectA").val() == "Attend") {
+                $('#Leave').hide();
+                $('#Attend').show();
+            } else {
+                $('#Leave').show();
+                $('#Attend').hide();
+            }
             $("#selectA").change(function () {
                 var currentdata = $("#" + $(this).val());
                 currentdata.show();
@@ -81,5 +95,19 @@
                  $('#Attend').not(currentdata).hide();
             });
         })
+            //(function() {
+            //    let att = document.getElementById('Attend');
+            //    let leav = document.getElementById('Leave');
+            //    let select = document.getElementById('selectA');
+            //    if (select.value == "Attend") {
+            //        att.display = 'block';
+            //        leav.display = 'none'
+            //    }
+            //    else {
+            //        att.display = 'none';
+            //        leav.display = 'block'
+            //    }
+            //})()
+
     </script>
 }

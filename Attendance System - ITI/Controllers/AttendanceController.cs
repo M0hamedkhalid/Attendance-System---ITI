@@ -20,7 +20,7 @@ namespace Attendance_System___ITI.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index(int DepartmentId)
+        public async Task<IActionResult> Index(int DepartmentId, string Flag)
         {
             ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
             if (DepartmentId != 0)
@@ -33,12 +33,13 @@ namespace Attendance_System___ITI.Controllers
 
                 ViewBag.Attended = await attended.ToListAsync();
                 viewModel.Students = await applicationDbContext.ToListAsync();
+                viewModel.Flag = Flag?? "attend";
                 return View(viewModel);
             }
             return View();
             
         }
-        public async Task<IActionResult> Attend(string id)
+        public async Task<IActionResult> Attend(string id , int DepartmentId )
         {
 
           var st=  _context.Students.FirstOrDefault(t => t.Id == id);
@@ -60,10 +61,11 @@ namespace Attendance_System___ITI.Controllers
                
             }
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return Redirect($"/Attendance/?DepartmentId={DepartmentID}&Flag=attend");
+
         }
 
-        public async Task<IActionResult> Leave(string id)
+        public async Task<IActionResult> Leave(string id, int DepartmentId)
         {
             var st = _context.Students.FirstOrDefault(t => t.Id == id);
             st.StudentStatus = 0;
@@ -73,7 +75,7 @@ namespace Attendance_System___ITI.Controllers
             await _context.SaveChangesAsync();
 
 
-            return RedirectToAction("Index");
+            return Redirect($"/Attendance/?DepartmentId={DepartmentID}&Flag=leave");
 
         }
     }
