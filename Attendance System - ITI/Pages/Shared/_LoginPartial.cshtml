@@ -4,27 +4,58 @@
 @inject ApplicationDbContext dbContext
 @{
     var fullname = "";
+    string role = "";
     if (SignInManager.IsSignedIn(User))
     {
         var user = (await UserManager.GetUserAsync(User));
         dbContext.Entry(user).Reference(u => u.Student).Load();
         dbContext.Entry(user).Reference(u => u.Instructor).Load();
 
-         fullname = user.Instructor?.Name ?? user.Student?.Name;
+        fullname = user.Instructor?.Name ?? user.Student?.Name;
+       var roles =await UserManager.GetRolesAsync(user);
+       foreach (var item in roles)
+       {
+           role=item;
+            
+       }
     }
 }
-    @if (SignInManager.IsSignedIn(User))
-    { 
+@if (SignInManager.IsSignedIn(User))
+{ 
+          if (role=="student")
+             {
+                        <li class="scroll-to-section"><a asp-controller="Schedule" asp-action="Index">Schedule</a></li>
+                        <li class="scroll-to-section">  
+                              <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullname</a>
+                        </li> 
+                        <li>
+                              <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
+                              <button  type="submit" class="nav-link btn btn-link font-weight-bold text-dark" >Logout</button>
+                              </form>
+                        </li>
 
-            <a class="scroll-to-section ml-5 nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullname</a>
-                     
+             }
+             else if (role=="instractor")
+             {
+                         <li class="scroll-to-section"><a asp-controller="Students" asp-action="Index">Students</a></li>
+                        <li class="scroll-to-section"><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
+                                    <a class="scroll-to-section ml-5 nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullname</a>
                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
                 <button  type="submit" class="nav-link btn btn-link font-weight-bold text-dark" >Logout</button>
                </form>
+             }
+
+
 
     }
     else
     {
+        <li class="scroll-to-section" style="list-style-type:none">
+            <a  asp-area="Identity" asp-controller="Attendance" asp-action="Index">Attendance</a>
+        </li>
+        <li class="scroll-to-section" style="list-style-type:none">
+            <a  asp-area="Identity" asp-controller="Schedule" asp-action="Index">Schedule</a>
+        </li>
         <li class="scroll-to-section" style="list-style-type:none">
             <a class="dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Register
@@ -33,8 +64,8 @@
                 <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/InstractorRegister">Instructor</a></li>
                 <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/StudentRegister">Student</a></li>
             </ul>
-    </li>
-    <li class="scroll-to-section" style="list-style-type:none">
-        <a  asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
+        </li>
+        <li class="scroll-to-section" style="list-style-type:none">
+            <a  asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
     }

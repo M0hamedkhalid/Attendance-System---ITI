@@ -313,7 +313,7 @@ namespace Attendance_System___ITI.Controllers
                 using (MemoryStream stream = new MemoryStream())
                 {
                     wb.SaveAs(stream);
-                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Students.xlsx");
+                    return File(stream.ToArray(),"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Students.xlsx");
                 }
             }
         }
