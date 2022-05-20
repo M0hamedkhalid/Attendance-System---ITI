@@ -1,0 +1,15 @@
+﻿@page
+@model Attendance_System___ITI.Pages.ForbiddenModel
+@{
+    ViewData["Title"] = "Forbidden";
+}
+
+<div class="row container h-custom justify-content-center align-items-center" style="height:30rem">
+    <h1 class="text-danger">Forbidden</h1>
+    <h2 class="text-danger">Access misconfiguration on the client-side.</h2>
+    
+    <p>
+        <strong>Request ID:</strong> <code>@Model.StatusCode(403).StatusCode</code>
+    </p>
+
+</div>

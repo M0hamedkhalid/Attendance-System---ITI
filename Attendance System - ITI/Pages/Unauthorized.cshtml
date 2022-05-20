@@ -1,0 +1,15 @@
+﻿@page
+@model Attendance_System___ITI.Pages.UnauthorizedModel
+@{
+    ViewData["Title"] = "Unauthrized";
+}
+
+<div class="row container h-custom justify-content-center align-items-center" style="height:30rem">
+    <h1 class="text-danger">Unautherized</h1>
+    <h2 class="text-danger">You have no access.</h2>
+
+    <p>
+        <strong>Request ID:</strong> <code>@Model.Unauthorized().StatusCode</code>
+    </p>
+
+</div>
