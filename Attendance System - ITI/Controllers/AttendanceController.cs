@@ -14,21 +14,33 @@ namespace Attendance_System___ITI.Controllers
     public class AttendanceController : Controller
     {
         private readonly ApplicationDbContext _context;
+        [BindProperty(SupportsGet =true)]
+        public string DepartmentID { get; set; }
 
         public AttendanceController(ApplicationDbContext context)
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int DepartmentId, string Flag)
         {
-            var applicationDbContext = _context.Students.Where(S=>S.StudentStatus==0);
             ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
-            var attended = _context.Attendances.Include(a=>a.Student).Where(A => A.LeaveTime == null&&A.Date==DateTime.Now.Date&&A.Student.StudentStatus==1);
+            if (DepartmentId != 0)
+            {
+                AttendanceViewModel viewModel = new AttendanceViewModel();
+                viewModel.DepartmentId = DepartmentId;
+                int deptId = int.Parse(DepartmentID);
+                var applicationDbContext = _context.Students.Where(S => S.StudentStatus == 0 && S.DeptID == deptId).Include(S => S.Department);
+                var attended = _context.Attendances.Include(a => a.Student).Where(A => A.LeaveTime == null && A.Date == DateTime.Now.Date && A.Student.StudentStatus == 1);
 
-            ViewBag.Attended =await attended.ToListAsync();
-            return View(await applicationDbContext.ToListAsync());
+                ViewBag.Attended = await attended.ToListAsync();
+                viewModel.Students = await applicationDbContext.ToListAsync();
+                viewModel.Flag = Flag?? "attend";
+                return View(viewModel);
+            }
+            return View();
+            
         }
-        public async Task<IActionResult> Attend(string id)
+        public async Task<IActionResult> Attend(string id , int DepartmentId )
         {
 
           var st=  _context.Students.FirstOrDefault(t => t.Id == id);
@@ -50,10 +62,11 @@ namespace Attendance_System___ITI.Controllers
                
             }
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return Redirect($"/Attendance/?DepartmentId={DepartmentID}&Flag=attend");
+
         }
 
-        public async Task<IActionResult> Leave(string id)
+        public async Task<IActionResult> Leave(string id, int DepartmentId)
         {
             var st = _context.Students.FirstOrDefault(t => t.Id == id);
             st.StudentStatus = 0;
@@ -63,7 +76,7 @@ namespace Attendance_System___ITI.Controllers
             await _context.SaveChangesAsync();
 
 
-            return RedirectToAction("Index");
+            return Redirect($"/Attendance/?DepartmentId={DepartmentID}&Flag=leave");
 
         }
     }
