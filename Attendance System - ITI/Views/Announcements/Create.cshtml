@@ -1,0 +1,31 @@
+@model Attendance_System___ITI.Models.Announcement
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Announcement</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Descreption" class="control-label"></label>
+                <input asp-for="Descreption" class="form-control" />
+                <span asp-validation-for="Descreption" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href="/">Back to List</a>
+</div>
+

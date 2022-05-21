@@ -16,8 +16,16 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(option =>
 {
     option.Password.RequireNonAlphanumeric = false;
+
 }).AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Forbidden";
+    options.LogoutPath = "/";
+    
+}
+);
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
@@ -38,7 +46,15 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.Use(async (context, next) =>
+{
+    await next();
+    if (context.Response.StatusCode == 404)
+    {
+        context.Request.Path = "/Error";
+        await next();
+    }
+});
 app.UseRouting();
 
 app.UseAuthentication();
