@@ -8,7 +8,18 @@
     <main role="main" class="pb-3">
         <h1 class="h-3 my-3 title">@ViewBag.Title</h1>
         <div class="row justify-content-center align-items-center h-100">
-            <div><select id="selectA" class = "form form-control" style = "width:350px">
+             <div class="col-6 mb-2">
+                <form>
+@*                    <label class="form-control-label px-3">Choose Department</label>
+*@                <select asp-items="@ViewBag.DeptID" asp-for="DepartmentId" class="form-control" style = "width:350px">
+                    <option> Choose Department</option>
+                </select><br />
+                    <button type="submit" class="btn btn-info">Bring Students </button>
+
+                </form>
+            </div>
+            <div class="col-6 mb-5 py-5">
+                <select id="selectA" class = "form form-control" style = "width:350px">
                 @if (Model?.Flag == "attend" | Model?.Flag == null )
                     {
                         <option value="Attend" selected>Attend</option>
@@ -22,17 +33,8 @@
 
             </select>
             </div>
-            <br />
-            <div>
-                <form>
-                    <label class="form-control-label px-3">Choose Department</label>
-                <select asp-items="@ViewBag.DeptID" asp-for="DepartmentId" class="form-control" style = "width:350px">
-                    <option> Please select one</option>
-                </select><br />
-                    <button type="submit" class="btn btn-info">Bring Students Name</button>
 
-                </form>
-            </div>
+
         </div>
         <hr />
         <table class="table text-center table-hover mb-0">
