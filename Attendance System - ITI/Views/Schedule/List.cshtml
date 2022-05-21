@@ -1,0 +1,71 @@
+﻿@using Attendance_System___ITI.Models;
+
+@model IEnumerable<Attendance_System___ITI.Models.Lecture>
+
+@{
+    ViewData["Title"] = "List of Lecture";
+}
+
+
+<div class="container">
+    <main role="main" class="pb-3">
+        <table class="table text-center table-hover mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th class="th-lg">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th class="th-lg">
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th class="th-lg">
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </th>
+                    <th class="th-lg">
+                        @Html.DisplayNameFor(model => model.EndTime)
+                    </th>
+                    <th class="th-lg">
+                        @Html.DisplayNameFor(model => model.DeptID)
+                    </th>
+                    <th class="th-lg">
+                        @Html.DisplayNameFor(model => model.Department)
+                    </th>
+                    
+                    <th class="th-lg">
+                        Operations
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(ModelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeptID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Department.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" style="width:100px">Delete</a>
+                    </td>
+                </tr>
+}
+            </tbody>
+        </table>
+    </main>
+</div>
+    </tbody>
+</table>
+

@@ -59,6 +59,26 @@ namespace Attendance_System___ITI.Controllers
 
         }
 
+        public async Task<IActionResult> List()
+        {
+            var app = _context.Lectures.Include(s => s.Department);
+            ViewData["DeptID"] = new SelectList(_context.Lectures, "Id", "Name");
+            return View(await app.ToListAsync());
+        }
+
+
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var lec = await _context.Lectures.FindAsync(id);
+            _context.Lectures.Remove(lec);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(List));
+
+
+        }
+
+
 
     }
 }
