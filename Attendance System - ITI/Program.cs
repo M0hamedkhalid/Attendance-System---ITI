@@ -22,7 +22,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(option =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.AccessDeniedPath = "/Forbidden";
-    options.LogoutPath = "/";
+    //options.LogoutPath = "/";
     
 }
 );

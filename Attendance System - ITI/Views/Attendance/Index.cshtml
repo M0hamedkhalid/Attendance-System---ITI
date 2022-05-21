@@ -20,14 +20,16 @@
                         <option value="Leave" selected>Leave</option>
                     }
 
-            </select></div>
+            </select>
+            </div>
+            <br />
             <div>
                 <form>
-                    <label>Choose Department</label>
-                <select asp-items="@ViewBag.DeptID" asp-for="DepartmentId" >
+                    <label class="form-control-label px-3">Choose Department</label>
+                <select asp-items="@ViewBag.DeptID" asp-for="DepartmentId" class="form-control" style = "width:350px">
                     <option> Please select one</option>
-                </select>
-                    <button type="submit" >Bring Students Name</button>
+                </select><br />
+                    <button type="submit" class="btn btn-info">Bring Students Name</button>
 
                 </form>
             </div>
