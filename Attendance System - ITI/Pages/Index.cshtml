@@ -62,21 +62,27 @@
             <hr />
             <br />
             <div class="row">
+                @foreach (var item in ViewBag.Anno)
+                {
                 <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
-                    <div class="features-item">
+                     <div class="features-item">
                         <div class="features-icon">
                             <img src="./images/news.png" alt="">
                         </div>
-                        <div class="features-content">
-                            <h4>Initial Work</h4>
-                            <p>Proin euismod sem ut diam ultricies, ut faucibus velit ultricies. Nam eu turpis quam. Duis ac condimentum eros.</p>
-                            <a href="#" class="text-button-icon">
+                            <div class="features-content">
+                            <h4>@item.Descreption</h4>
+                            <p>@item.Date</p>
+                             <a asp-area="Identity" asp-page="/Account/Login" class="text-button-icon">
                                 Learn More <i class="fa fa-arrow-right"></i>
                             </a>
-                        </div>
+                            </div>
+
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter bottom move 30px over 0.6s after 0.4s">
+                }
+
+
+              @*<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter bottom move 30px over 0.6s after 0.4s">
                     <div class="features-item">
                         <div class="features-icon">
                             <img src="./images/news.png" alt="">
@@ -89,8 +95,8 @@
                             </a>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter right move 30px over 0.6s after 0.4s">
+                </div>*@
+                @*<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter right move 30px over 0.6s after 0.4s">
                     <div class="features-item">
                         <div class="features-icon">
                             <img src="./images/news.png" alt="">
@@ -103,7 +109,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
     </section>

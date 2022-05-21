@@ -12,6 +12,7 @@ namespace Attendance_System___ITI.Data
         public DbSet<Instructor> Instructors { get; set; }
         public DbSet<Lecture> Lectures { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options )
             : base(options)
         {
