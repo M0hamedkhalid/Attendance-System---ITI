@@ -50,7 +50,7 @@
     else if (role=="admin")
     {
         <li class="scroll-to-section"><a asp-controller="Students" asp-action="Index">Students</a></li>
-        <li class="scroll-to-section"><a asp-controller="Instructors" asp-action="Index">Instractors</a></li>
+        <li class="scroll-to-section"><a asp-controller="Instructors" asp-action="Index">Instructors</a></li>
         <li class="scroll-to-section"><a asp-controller="Departments" asp-action="Index">Departments</a></li>
          <li class="scroll-to-section"><a asp-controller="Announcements" asp-action="create">Announcements</a></li> 
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >

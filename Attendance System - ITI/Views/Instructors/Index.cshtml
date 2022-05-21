@@ -1,53 +1,82 @@
 ﻿@model IEnumerable<Attendance_System___ITI.Models.Instructor>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "List of Instructors";
 }
 
-<h1>Index</h1>
+<div class="container">
+    <main role="main" class="pb-3">
+        <h1 class="h-3 my-3 title">@ViewBag.Title</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Credential)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Department)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Credential.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Department.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        <div class="row">
+            <div class="col-4">
+                <br />
+                <p><a asp-action="Create" class="btn btn-info">Create New</a></p><br />
+                <a asp-controller="Instructors" asp-action="Export" class="btn btn-success" >Export Instructor Data As ExcelSheet </a>
+            </div>
+
+            <div class="col-4">
+                <br />
+                @using (Html.BeginForm("Index", "Instructors", FormMethod.Get))
+                {
+                    @Html.DropDownList("DeptID", ViewBag.DeptID as SelectList , new { @class = "form form-control" , @style = "width:350px" })<br />
+                    <input type="submit" value="Filter" class="btn btn-info" />
+                }
+
+            </div>
+                <div class="col-4">
+                <form asp-action="Index" method="post">
+                    <div class="form-actions no-color">
+                        <p>
+                            Find by name: <input type="text" name="searchtext" value="@ViewData["CurrentFilter"]" class="form form-control" style="width:350px" /><br />
+                            <input type="submit" value="Search" class="btn btn-info" /> |
+                            <a asp-action="Index" class="btn btn-info">Back to Full List</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <hr />
+
+        <table class="table text-center table-hover mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th  class="th-lg">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th  class="th-lg">
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th  class="th-lg">
+                        @Html.DisplayNameFor(model => model.Department)
+                    </th>
+                    <th  class="th-lg">
+                        @*@Html.DisplayNameFor(model => model.Department)*@
+                        Operations
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Department.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success" style="width:100px;margin-bottom:1rem">Edit</a><br />
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info" style="width:100px;margin-bottom:1rem">Details</a><br />
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" style="width:100px">Delete</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </main>
+</div>
