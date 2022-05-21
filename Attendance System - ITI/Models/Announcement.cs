@@ -10,7 +10,7 @@ namespace Attendance_System___ITI.Models
 
         public string Descreption { get; set; }
 
-        public String Date { get; set; }   
+        public String? Date { get; set; }   
 
 
 
