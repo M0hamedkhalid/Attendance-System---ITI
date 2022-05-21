@@ -39,6 +39,7 @@ namespace Attendance_System___ITI.Controllers
             return new JsonResult(lect);
         }
 
+        [Authorize(Roles = "instractor,admin")]
 
         public IActionResult Create()
         {
@@ -48,6 +49,7 @@ namespace Attendance_System___ITI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "instractor,admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Date,StartTime,EndTime,DeptID")] Lecture lec)
         {
           
@@ -58,7 +60,7 @@ namespace Attendance_System___ITI.Controllers
   
 
         }
-
+ 
         public async Task<IActionResult> List()
         {
             var app = _context.Lectures.Include(s => s.Department);
