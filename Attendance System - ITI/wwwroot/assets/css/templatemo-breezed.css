@@ -388,19 +388,19 @@ header
 }
 
 .header-area .main-nav .nav li {
-  padding-left: 20px;
+  padding-left: 10px;
   padding-right: 20px;
 }
 
 .header-area .main-nav .nav .search-icon {
   float: right;
-  margin-left: 15px;
+  margin-left: 5px;
 }
 
 .header-area .main-nav .nav .search-icon a {
   background-color: #fff;
   color: #5fb759;
-  width: 40px;
+  width: 60px;
   height: 40px;
   display: inline-block;
   text-align: center;
