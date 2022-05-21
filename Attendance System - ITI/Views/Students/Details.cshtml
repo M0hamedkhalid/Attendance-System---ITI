@@ -21,6 +21,7 @@ dt {
             <span class="contact3-form-title" style="color:black">
                 Student's Details
             </span>
+            <hr />
             <dl class="row list-item">
                 <dt class = "col-sm-2">
                     @Html.DisplayNameFor(model => model.Name)
@@ -84,7 +85,6 @@ dt {
             <a asp-controller="Students" asp-action="Expel" class="contact3-form-btn" style="background:red">Expel</a>
             <hr />
             <div class="justify-content-center align-items-center" style="background:rgba(255,255,255,0.8)">
-
                 <div class="container-contact3-form-btn">
                     <form>
                         <a asp-action="Edit" asp-route-id="@Model?.Id" class="contact3-form-btn" style="background:#2BCAA5">Edit</a><br />
