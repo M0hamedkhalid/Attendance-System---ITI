@@ -9,13 +9,13 @@
         <h1 class="h-3 my-3 title">@ViewBag.Title</h1>
 
         <div class="row">
-            <div class="col-4">
+            <div class="col-sm">
                 <br />
                 <p><a asp-action="Create" class="btn btn-info">Create New</a></p><br />
                 <a asp-controller="Instructors" asp-action="Export" class="btn btn-success" >Export Instructor Data As ExcelSheet </a>
             </div>
 
-            <div class="col-4">
+            <div class="col-sm">
                 <br />
                 @using (Html.BeginForm("Index", "Instructors", FormMethod.Get))
                 {
@@ -25,7 +25,7 @@
           
 
             </div>
-                <div class="col-4">
+                <div class="col-sm">
                 <form asp-action="Index" >
                     <div class="form-actions no-color">
                         <p>
@@ -71,9 +71,9 @@
                         @Html.DisplayFor(modelItem => item.Department.Name)
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success" style="width:100px;margin-bottom:1rem">Edit</a><br />
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info" style="width:100px;margin-bottom:1rem">Details</a><br />
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" style="width:100px">Delete</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success" style="width:100px;margin-bottom:1rem">Edit</a>
+                 <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info" style="width:100px;margin-bottom:1rem">Details</a>
+                 <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" style="width:100px;margin-bottom:1rem">Delete</a>
                     </td>
                 </tr>
             }

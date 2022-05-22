@@ -9,6 +9,7 @@
 <div class="container">
     <main role="main" class="pb-3">
         <h1 class="h-3 my-3 title">@ViewBag.Title</h1>
+<div class="container">
 
         <div class="row">
             <div class="col-lg-4 col-md-4 col-12 ">
@@ -17,7 +18,7 @@
                 <a asp-controller="Students" asp-action="Export" class="btn btn-success">Export Student Data As ExcelSheet </a>
             </div>
 
-            <div class="col-4">
+            <div class="col-sm">
                 <br />
                 @using (Html.BeginForm("Index", "Students", FormMethod.Get))
                 {
@@ -40,6 +41,7 @@
                 </form>
             </div>
         </div>
+</div>
 
         <hr />
         <div class="table-responsive">

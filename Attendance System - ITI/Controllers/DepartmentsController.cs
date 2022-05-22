@@ -26,7 +26,7 @@ namespace Attendance_System___ITI.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Departments.Include(d => d.Manger);
+            var applicationDbContext = _context.Departments.Include(d => d.Manger).Include(d=>d.Instructors);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -52,7 +52,7 @@ namespace Attendance_System___ITI.Controllers
         // GET: Departments/Create
         public IActionResult Create()
         {
-            ViewData["MangerId"] = new SelectList(_context.Instructors, "Id", "Id");
+            ViewData["MangerId"] = new SelectList(_context.Instructors, "Id", "Name");
             return View();
         }
 
@@ -69,7 +69,7 @@ namespace Attendance_System___ITI.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MangerId"] = new SelectList(_context.Instructors, "Id", "Id", department.MangerId);
+            ViewData["MangerId"] = new SelectList(_context.Instructors, "Id", "Name", department.MangerId);
             return View(department);
         }
 
@@ -86,7 +86,7 @@ namespace Attendance_System___ITI.Controllers
             {
                 return NotFound();
             }
-            ViewData["MangerId"] = new SelectList(_context.Instructors, "Id", "Id", department.MangerId);
+            ViewData["MangerId"] = new SelectList(_context.Instructors, "Id", "Name", department.MangerId);
             return View(department);
         }
 
@@ -122,7 +122,7 @@ namespace Attendance_System___ITI.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["MangerId"] = new SelectList(_context.Instructors, "Id", "Id", department.MangerId);
+            ViewData["MangerId"] = new SelectList(_context.Instructors, "Id", "Name", department.MangerId);
             return View(department);
         }
 
