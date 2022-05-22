@@ -11,73 +11,74 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    
 </head>
 <body>
 
     <!-- ***** Main Banner Area Start ***** -->
     <div class="main-banner header-text" id="top">
         <div class="Modern-Slider">
-          <!-- Item -->
-         <div class="item">
-            <div class="img-fill">
-                <img src="~/assets/images/slide-01.jpg" alt="">
-                <div class="text-content justify-content-center">
-                    <div class="row">
-                          <h3>Welcome,</h3>
-                  <h5>It’s not about better time management,<br /> It’s about better life management.</h5>
+            <!-- Item -->
+            <div class="item">
+                <div class="img-fill">
+                    <img src="~/assets/images/slide-01.jpg" style="filter: blur(4px);" alt="">
+                    <div class="text-content justify-content-center">
+                        <div class="row">
+                            <h3>Welcome,</h3>
+                            <h5 class="strokeme">It’s not about better time management,<br /> It’s about better life management.</h5>
+                        </div>
+                        <div class="row justify-content-center">
+                            <a asp-page="/About" class="main-stroked-button col-lg-2 col-6 ">Learn More</a>
+                            <a asp-area="Identity" asp-page="/Account/Login" class="main-filled-button mt-1 col-lg-2 col-6 ">Get It Now</a>
+                        </div>
+
+
                     </div>
-                    <div class="row justify-content-center">
-                         <a asp-page="/About" class="main-stroked-button col-lg-2 col-6 ">Learn More</a>
-                  <a asp-area="Identity" asp-page="/Account/Login" class="main-filled-button mt-1 col-lg-2 col-6 ">Get It Now</a>
-                    </div>
-               
-                
+
+
                 </div>
-                
-               
             </div>
-          </div>
-          <!-- // Item -->
-          <!-- Item -->
-           <div class="item">
-            <div class="img-fill">
-                <img src="~/assets/images/slide-02.jpeg" alt="">
-                <div class="text-content justify-content-center">
-                    <div class="row">
-                  <h5>Man's mind, once stretched by a new idea, never regains its original dimensions.</h5>
+            <!-- // Item -->
+            <!-- Item -->
+            <div class="item">
+                <div class="img-fill">
+                    <img src="~/assets/images/slide-02.jpeg" style="filter: blur(4px);" alt="">
+                    <div class="text-content justify-content-center">
+                        <div class="row">
+                            <h5>Man's mind, once stretched by a new idea, never regains its original dimensions.</h5>
+                        </div>
+                        <div class="row justify-content-center">
+                            <a asp-page="/About" class="main-stroked-button col-lg-2 col-6 ">Learn More</a>
+                            <a asp-area="Identity" asp-page="/Account/Login" class="main-filled-button mt-1 col-lg-2 col-6 ">Get It Now</a>
+                        </div>
+
+
                     </div>
-                    <div class="row justify-content-center">
-                         <a asp-page="/About" class="main-stroked-button col-lg-2 col-6 ">Learn More</a>
-                  <a asp-area="Identity" asp-page="/Account/Login" class="main-filled-button mt-1 col-lg-2 col-6 ">Get It Now</a>
-                    </div>
-               
-                
+
+
                 </div>
-                
-               
             </div>
-          </div>
-          <!-- // Item -->
-          <!-- Item -->
-          <div class="item">
-            <div class="img-fill">
-                <img src="~/assets/images/slide-03.jpeg" alt="">
-                <div class="text-content justify-content-center">
-                    <div class="row">
-                  <h5>The beautiful thing about learning is that nobody can take it away from you.</h5>
+            <!-- // Item -->
+            <!-- Item -->
+            <div class="item">
+                <div class="img-fill">
+                    <img src="~/assets/images/slide-03.jpeg" style="filter: blur(4px);" alt="">
+                    <div class="text-content justify-content-center">
+                        <div class="row">
+                            <h5>The beautiful thing about learning is that nobody can take it away from you.</h5>
+                        </div>
+                        <div class="row justify-content-center">
+                            <a asp-page="/About" class="main-stroked-button col-lg-2 col-6 ">Learn More</a>
+                            <a asp-area="Identity" asp-page="/Account/Login" class="main-filled-button mt-1 col-lg-2 col-6 ">Get It Now</a>
+                        </div>
+
+
                     </div>
-                    <div class="row justify-content-center">
-                         <a asp-page="/About" class="main-stroked-button col-lg-2 col-6 ">Learn More</a>
-                  <a asp-area="Identity" asp-page="/Account/Login" class="main-filled-button mt-1 col-lg-2 col-6 ">Get It Now</a>
-                    </div>
-               
-                
+
+
                 </div>
-                
-               
             </div>
-          </div>
-          <!-- // Item -->
+            <!-- // Item -->
         </div>
     </div>
     <!-- ***** Main Banner Area End ***** -->
@@ -92,51 +93,51 @@
             <div class="row">
                 @foreach (var item in ViewBag.Anno)
                 {
-                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
-                     <div class="features-item">
-                        <div class="features-icon">
-                            <img src="./images/news.png" alt="">
-                        </div>
+                    <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter left move 30px over 0.6s after 0.4s">
+                        <div class="features-item">
+                            <div class="features-icon">
+                                <img src="./images/news.png" alt="">
+                            </div>
                             <div class="features-content">
-                            <h4>@item.Descreption</h4>
-                            <p>@item.Date</p>
-                             <a asp-area="Identity" asp-page="/Account/Login" class="text-button-icon">
-                                Learn More <i class="fa fa-arrow-right"></i>
-                            </a>
+                                <h4>@item.Descreption</h4>
+                                <p>@item.Date</p>
+                                <a asp-area="Identity" asp-page="/Account/Login" class="text-button-icon">
+                                    Learn More <i class="fa fa-arrow-right"></i>
+                                </a>
                             </div>
 
+                        </div>
                     </div>
-                </div>
                 }
 
 
-              @*<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter bottom move 30px over 0.6s after 0.4s">
-                    <div class="features-item">
-                        <div class="features-icon">
-                            <img src="./images/news.png" alt="">
-                        </div>
-                        <div class="features-content">
-                            <h4>Master Planning</h4>
-                            <p>Proin euismod sem ut diam ultricies, ut faucibus velit ultricies. Nam eu turpis quam. Duis ac condimentum eros.</p>
-                            <a href="#" class="text-button-icon">
-                                Learn More <i class="fa fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
+                @*<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter bottom move 30px over 0.6s after 0.4s">
+                <div class="features-item">
+                <div class="features-icon">
+                <img src="./images/news.png" alt="">
+                </div>
+                <div class="features-content">
+                <h4>Master Planning</h4>
+                <p>Proin euismod sem ut diam ultricies, ut faucibus velit ultricies. Nam eu turpis quam. Duis ac condimentum eros.</p>
+                <a href="#" class="text-button-icon">
+                Learn More <i class="fa fa-arrow-right"></i>
+                </a>
+                </div>
+                </div>
                 </div>*@
                 @*<div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" data-scroll-reveal="enter right move 30px over 0.6s after 0.4s">
-                    <div class="features-item">
-                        <div class="features-icon">
-                            <img src="./images/news.png" alt="">
-                        </div>
-                        <div class="features-content">
-                            <h4>Smooth Execution</h4>
-                            <p>Proin euismod sem ut diam ultricies, ut faucibus velit ultricies. Nam eu turpis quam. Duis ac condimentum eros.</p>
-                            <a href="#" class="text-button-icon">
-                                Learn More <i class="fa fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
+                <div class="features-item">
+                <div class="features-icon">
+                <img src="./images/news.png" alt="">
+                </div>
+                <div class="features-content">
+                <h4>Smooth Execution</h4>
+                <p>Proin euismod sem ut diam ultricies, ut faucibus velit ultricies. Nam eu turpis quam. Duis ac condimentum eros.</p>
+                <a href="#" class="text-button-icon">
+                Learn More <i class="fa fa-arrow-right"></i>
+                </a>
+                </div>
+                </div>
                 </div>*@
             </div>
         </div>
