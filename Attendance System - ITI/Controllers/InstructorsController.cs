@@ -11,16 +11,26 @@ using Attendance_System___ITI.Models;
 using Microsoft.AspNetCore.Authorization;
 using ClosedXML.Excel;
 using System.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Attendance_System___ITI.Controllers
 {
     public class InstructorsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly IUserStore<ApplicationUser> _userStore;
+        private readonly IUserEmailStore<ApplicationUser> _emailStore;
 
-        public InstructorsController(ApplicationDbContext context)
+        public InstructorsController( ApplicationDbContext context, UserManager<ApplicationUser> userManager,
+            IUserStore<ApplicationUser> userStore,
+            SignInManager<ApplicationUser> signInManager
+           )
         {
             _context = context;
+            this.userManager = userManager;
+            _userStore = userStore;
+            _emailStore = GetEmailStore();
         }
 
         // GET: Instructors
@@ -83,16 +93,32 @@ namespace Attendance_System___ITI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Create([Bind("Id,Name,Address,DeptID")] Instructor instructor)
+        public async Task<IActionResult> Create( Instructor instructor)
         {
-            if (ModelState.IsValid)
+
+            var user = CreateUser();
+
+            await _userStore.SetUserNameAsync(user, instructor.Credential.Email, CancellationToken.None);
+            await _emailStore.SetEmailAsync(user, instructor.Credential.Email, CancellationToken.None);
+            var result = await userManager.CreateAsync(user);
+            
+            if (result.Succeeded)
             {
-                _context.Add(instructor);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                instructor.Id = await userManager.GetUserIdAsync(user);
+                ModelState.Remove("Id");
+
+
+                if (ModelState.IsValid)
+                {
+                    _context.Add(instructor);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+               
             }
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", instructor.Id);
-            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Id", instructor.DeptID);
+
+
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Id", "Name");
             return View(instructor);
         }
 
@@ -111,8 +137,8 @@ namespace Attendance_System___ITI.Controllers
             {
                 return NotFound();
             }
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", instructor.Id);
-            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Id", instructor.DeptID);
+            //ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", instructor.Id);
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name", instructor.DeptID);
             return View(instructor);
         }
 
@@ -123,7 +149,7 @@ namespace Attendance_System___ITI.Controllers
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
 
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Address,DeptID")] Instructor instructor)
+        public async Task<IActionResult> Edit(string id, Instructor instructor)
         {
             if (id != instructor.Id)
             {
@@ -150,8 +176,8 @@ namespace Attendance_System___ITI.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", instructor.Id);
-            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Id", instructor.DeptID);
+            //ViewData["Id"] = new SelectList(_context.Users, "Id", "Id", instructor.Id);
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name", instructor.DeptID);
             return View(instructor);
         }
 
@@ -187,6 +213,10 @@ namespace Attendance_System___ITI.Controllers
             var instructor = await _context.Instructors.FindAsync(id);
             _context.Instructors.Remove(instructor);
             await _context.SaveChangesAsync();
+            var user = await _context.Users.FindAsync(id);
+             _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -221,6 +251,18 @@ namespace Attendance_System___ITI.Controllers
                     return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Instructors.xlsx");
                 }
             }
+        }
+        private ApplicationUser CreateUser()
+        {
+            return Activator.CreateInstance<ApplicationUser>();
+        }
+        private IUserEmailStore<ApplicationUser> GetEmailStore()
+        {
+            if (!userManager.SupportsUserEmail)
+            {
+                throw new NotSupportedException("The default UI requires a user store with email support.");
+            }
+            return (IUserEmailStore<ApplicationUser>)_userStore;
         }
     }
 }

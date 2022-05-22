@@ -248,6 +248,9 @@ namespace Attendance_System___ITI.Controllers
             var student = await _context.Students.FindAsync(id);
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
+            var user = await _context.Users.FindAsync(id);
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
