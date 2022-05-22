@@ -81,8 +81,8 @@ dt {
                     This Student Has @ViewBag.Warnings Warnings
                 </dd>
             </dl>
-            <a asp-controller="Students" asp-action="AddWarning" class="contact3-form-btn" style="background:#2BCAA5">Add Warning</a>
-            <a asp-controller="Students" asp-action="Expel" class="contact3-form-btn" style="background:red">Expel</a>
+            <a asp-controller="Students" asp-action="AddWarning" asp-route-Id="@Model.Id" class="contact3-form-btn" style="background:#2BCAA5">Add Warning</a>
+            <a asp-controller="Students" asp-action="Expel" asp-route-Id="@Model.Id" class="contact3-form-btn" style="background:red">Expel</a>
             <hr />
             <div class="justify-content-center align-items-center" style="background:rgba(255,255,255,0.8)">
                 <div class="container-contact3-form-btn">

@@ -22,13 +22,14 @@
                     @Html.DropDownList("DeptID", ViewBag.DeptID as SelectList , new { @class = "form form-control" , @style = "width:350px" })<br />
                     <input type="submit" value="Filter" class="btn btn-info" />
                 }
+          
 
             </div>
                 <div class="col-4">
-                <form asp-action="Index" method="post">
+                <form asp-action="Index" >
                     <div class="form-actions no-color">
                         <p>
-                            Find by name: <input type="text" name="searchtext" value="@ViewData["CurrentFilter"]" class="form form-control" style="width:350px" /><br />
+                            Find by name: <input type="text" name="searchName" value="@ViewData["CurrentFilter"]" class="form form-control" style="width:350px" /><br />
                             <input type="submit" value="Search" class="btn btn-info" /> |
                             <a asp-action="Index" class="btn btn-info">Back to Full List</a>
                         </p>

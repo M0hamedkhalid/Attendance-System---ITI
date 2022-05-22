@@ -49,16 +49,16 @@ namespace Attendance_System___ITI.Controllers
         [Authorize(Roles = "instractor,admin")]
         public async Task<IActionResult> Index(int? DeptID)
         {
+            ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
+
             if (DeptID == null)
             {
                 var applicationDbContext = _context.Students.Include(s => s.Credential).Include(s => s.Department);
-                ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
                 return View(await applicationDbContext.ToListAsync());
             }
             else
             {
                 var applicationDbContext1 = _context.Students.Include(s => s.Credential).Include(s => s.Department).Where(a => a.DeptID == DeptID);
-                ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
                 return View(await applicationDbContext1.ToListAsync());
             }
         }
@@ -78,7 +78,7 @@ namespace Attendance_System___ITI.Controllers
 
             if (!String.IsNullOrEmpty(searchtext))
             {
-                students = await _context.Students.Where(a => a.Name.Contains(searchtext)).ToListAsync();
+                students = await _context.Students.Where(a => a.Name.StartsWith(searchtext)).ToListAsync();
             }
             else
             {

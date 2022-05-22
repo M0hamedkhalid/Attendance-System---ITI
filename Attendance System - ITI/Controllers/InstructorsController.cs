@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Attendance_System___ITI.Controllers
 {
-    [Authorize(Roles = "instractor,admin")]
     public class InstructorsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,11 +22,28 @@ namespace Attendance_System___ITI.Controllers
         }
 
         // GET: Instructors
-        public async Task<IActionResult> Index()
+        [Authorize(Roles = "instractor,admin")]
+        public async Task<IActionResult> Index(int DeptID , string searchName)
         {
-            var applicationDbContext = _context.Instructors.Include(i => i.Credential).Include(i => i.Department);
+            var instructorsList = new List<Instructor>();
+
+            if (DeptID == 0)
+            {
+                instructorsList  = await _context.Instructors.ToListAsync();
+            }
+            else
+            {
+                instructorsList = await _context.Instructors.Where(ins => ins.DeptID == DeptID).ToListAsync();
+            }
+            if (searchName != null)
+            {
+                ViewData["CurrentFilter"] = searchName;
+                instructorsList = instructorsList.Where(ins => ins.Name.StartsWith(searchName)).ToList();
+            }
+
+            //var applicationDbContext = _context.Instructors.Include(i => i.Credential).Include(i => i.Department);
             ViewData["DeptID"] = new SelectList(_context.Departments, "Id", "Name");
-            return View(await applicationDbContext.ToListAsync());
+            return View(instructorsList);
         }
 
         // GET: Instructors/Details/5
@@ -51,6 +67,7 @@ namespace Attendance_System___ITI.Controllers
         }
 
         // GET: Instructors/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             ViewData["Id"] = new SelectList(_context.Users, "Id", "Id");
@@ -63,6 +80,7 @@ namespace Attendance_System___ITI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Address,DeptID")] Instructor instructor)
         {
             if (ModelState.IsValid)
@@ -77,6 +95,8 @@ namespace Attendance_System___ITI.Controllers
         }
 
         // GET: Instructors/Edit/5
+        [Authorize(Roles = "admin")]
+
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -99,6 +119,8 @@ namespace Attendance_System___ITI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
+
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Address,DeptID")] Instructor instructor)
         {
             if (id != instructor.Id)
@@ -132,6 +154,8 @@ namespace Attendance_System___ITI.Controllers
         }
 
         // GET: Instructors/Delete/5
+        [Authorize(Roles = "admin")]
+
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -154,6 +178,8 @@ namespace Attendance_System___ITI.Controllers
         // POST: Instructors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
+
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var instructor = await _context.Instructors.FindAsync(id);
