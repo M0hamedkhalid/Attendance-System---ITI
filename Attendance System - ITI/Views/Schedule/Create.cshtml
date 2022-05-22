@@ -37,7 +37,7 @@
     <div class="row d-flex justify-content-center">
         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
             <div class="card">
-                <h5 class="text-center mb-4">Create new Schedule</h5>
+                <h5 class="text-center mb-4">Add Lecture To The Schedule</h5>
                 <form asp-action="Create" class="form-card">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
@@ -67,9 +67,9 @@
                         <span asp-validation-for="DeptID" class="text-danger"></span>
                     </div>
                     <div class="form-group row justify-content-between text-left">
-                        <input type="submit" value="Save" class="btn btn-primary" />
-                        <a asp-action="Index" class="btn btn-primary">Back to List</a>
-                        <a asp-action="List" class="btn btn-info">List of lecturs</a>
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <a asp-action="Index" class="btn btn-primary">Schedule Calendar</a>
+                        <a asp-action="List" class="btn btn-info mt-1">List of lecturs</a>
 
                     </div>
                 </form>

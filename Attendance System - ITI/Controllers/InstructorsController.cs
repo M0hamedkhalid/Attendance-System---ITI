@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Attendance_System___ITI.Data;
 using Attendance_System___ITI.Models;
 using Microsoft.AspNetCore.Authorization;
+using ClosedXML.Excel;
+using System.Data;
 
 namespace Attendance_System___ITI.Controllers
 {
@@ -191,6 +193,34 @@ namespace Attendance_System___ITI.Controllers
         private bool InstructorExists(string id)
         {
             return _context.Instructors.Any(e => e.Id == id);
+        }
+
+
+
+        public IActionResult Export()
+        {
+            DataTable dt = new DataTable("Grid");
+            dt.Columns.AddRange(new DataColumn[] { new DataColumn("Id"), new DataColumn("Name"),
+                                                     new DataColumn("Address"), new DataColumn("Department Name")
+            });
+
+
+            var es = from Instructor in this._context.Instructors.Include(s => s.Department) select Instructor;
+
+            foreach (var ems in es)
+            {
+                dt.Rows.Add(ems.Id, ems.Name, ems.Address, ems.Department.Name);
+            }
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Instructors.xlsx");
+                }
+            }
         }
     }
 }
