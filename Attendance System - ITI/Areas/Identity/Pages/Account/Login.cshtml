@@ -69,7 +69,10 @@
                         <a id="forgot-password" class="text-body" asp-page="./ForgotPassword">Forgot your password?</a>
                     </p>*@
                     <p>
-                        <a asp-page="./Register" class="text-body" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                    <a asp-area="Identity" asp-page="/Account/InstractorRegister" class="text-primary">Register as Instructor</a>
+                    </p>
+                    <p>
+                    <a asp-area="Identity" asp-page="/Account/StudentRegister" class="text-primary"> Register as Student</a>
                     </p>
                     @*<p>
                         <a id="resend-confirmation" class="text-body" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
