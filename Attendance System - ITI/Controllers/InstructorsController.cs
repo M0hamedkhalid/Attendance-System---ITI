@@ -132,7 +132,7 @@ namespace Attendance_System___ITI.Controllers
                 return NotFound();
             }
 
-            var instructor = await _context.Instructors.FindAsync(id);
+            var instructor =  _context.Instructors.Include(ins => ins.Credential).FirstOrDefault(ins => ins.Id == id);
             if (instructor == null)
             {
                 return NotFound();
@@ -160,7 +160,11 @@ namespace Attendance_System___ITI.Controllers
             {
                 try
                 {
-                    _context.Update(instructor);
+                    var oldIns =await _context.Instructors.Include(ins => ins.Credential).FirstOrDefaultAsync(ins => ins.Id == id);
+                    oldIns.Name = instructor.Name;
+                    oldIns.Address = instructor.Address;
+                    oldIns.Credential.Email = instructor.Credential.Email;
+                    oldIns.DeptID = instructor.DeptID;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
