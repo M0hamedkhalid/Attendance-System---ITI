@@ -107,7 +107,7 @@ namespace Attendance_System___ITI.Areas.Identity.Pages.Account
             [Required]
             public int GraduationYear { get; set; }
             [Required]
-            public int GraduationGrade { get; set; }
+            public string GraduationGrade { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]

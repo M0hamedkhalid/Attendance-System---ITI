@@ -9,7 +9,7 @@ namespace Attendance_System___ITI.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public int GraduationYear { get; set; }
-        public int GraduationGrade { get; set; }
+        public string? GraduationGrade { get; set; }
         public string? Mobile { get; set; }
         public string? Faculty { get; set; }
         public string? University { get; set; }
