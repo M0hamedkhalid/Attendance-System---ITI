@@ -12,66 +12,77 @@
         await dbContext.Entry(user).Reference(u => u.Instructor).LoadAsync();
 
         fullname = user.Instructor?.Name ?? user.Student?.Name;
-       var roles =await UserManager.GetRolesAsync(user);
-       foreach (var item in roles)
-       {
-           role=item;
-            
-       }
+        var roles = await UserManager.GetRolesAsync(user);
+        foreach (var item in roles)
+        {
+            role = item;
+
+        }
     }
 }
-@if (SignInManager.IsSignedIn(User)){ 
-    if (role=="student")
+@if (SignInManager.IsSignedIn(User))
+{
+    if (role == "student")
     {
         <li class="scroll-to-section" style="list-style-type:none">
             <a asp-page="/ChatRoom">Chat Room</a>
         </li>
         <li class="scroll-to-section"><a asp-controller="Schedule" asp-action="Index">Schedule</a></li>
-        <li class="scroll-to-section">  
+        <li class="scroll-to-section">
             <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullname</a>
-        </li> 
+        </li>
         <li>
-            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-                <button  type="submit" class="nav-link btn btn-link font-weight-bold text-dark" >Logout</button>
+            <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <button type="submit" class="nav-link btn btn-link font-weight-bold text-dark">Logout</button>
             </form>
         </li>
     }
-    else if (role=="instractor")
+    else if (role == "instractor")
     {
         <li class="scroll-to-section"><a asp-controller="Students" asp-action="Index">Students</a></li>
         <li class="scroll-to-section"><a asp-controller="Instructors" asp-action="Index">Instructors</a></li>
         <li class="scroll-to-section"><a asp-controller="Attendance" asp-action="Index">Attendance</a></li>
-       <li class="scroll-to-section"><a asp-controller="Schedule" asp-action="create">Schedule</a></li>
-         <li class="scroll-to-section"><a asp-controller="Announcements" asp-action="create">Announcements</a></li> 
-        <a class="scroll-to-section ml-5 nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @fullname</a>
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-            <button  type="submit" class="nav-link btn btn-link font-weight-bold text-dark" >Logout</button>
-        </form>
+        <li class="scroll-to-section"><a asp-controller="Schedule" asp-action="create">Schedule</a></li>
+        <li class="scroll-to-section"><a asp-controller="Announcements" asp-action="create">Announcements</a></li>
+        <li class="scroll-to-section ">
+            <a class="font-weight-bold   " asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @fullname</a>
+        </li>
+        <li class="scroll-to-section">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <button type="submit" class="btn btn-link font-weight-bold text-dark">Logout</button>
+            </form>
+        </li>
+
+
     }
-    else if (role=="admin")
+    else if (role == "admin")
     {
         <li class="scroll-to-section"><a asp-controller="Students" asp-action="Index">Students</a></li>
         <li class="scroll-to-section"><a asp-controller="Instructors" asp-action="Index">Instructors</a></li>
         <li class="scroll-to-section"><a asp-controller="Departments" asp-action="Index">Departments</a></li>
-         <li class="scroll-to-section"><a asp-controller="Announcements" asp-action="create">Announcements</a></li> 
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-            <button  type="submit" class="nav-link btn btn-link font-weight-bold text-dark" >Logout</button>
-        </form>
+        <li class="scroll-to-section"><a asp-controller="Announcements" asp-action="create">Announcements</a></li>
+        <li class="scroll-to-section">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                <button type="submit" class="nav-link btn btn-link font-weight-bold text-dark">Logout</button>
+            </form>
+        </li>
+
     }
-}else
+}
+else
 {
     <li class="scroll-to-section" style="list-style-type:none">
-        <a  asp-area="Identity" asp-controller="Attendance" asp-action="Index">Attendance</a>
+        <a asp-area="Identity" asp-controller="Attendance" asp-action="Index">Attendance</a>
     </li>
     <li class="scroll-to-section" style="list-style-type:none">
-        <a  asp-area="Identity" asp-controller="Schedule" asp-action="Index">Schedule</a>
+        <a asp-area="Identity" asp-controller="Schedule" asp-action="Index">Schedule</a>
     </li>
     <li class="scroll-to-section" style="list-style-type:none">
         <a asp-page="/Announcements">Announcements</a>
     </li>
     <li class="scroll-to-section" style="list-style-type:none">
         <a class="dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Register
+            Register
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarLightDropdownMenuLink" style="background-color:#2BCAA5">
             <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/InstractorRegister">Instructor</a></li>
@@ -79,6 +90,6 @@
         </ul>
     </li>
     <li class="scroll-to-section" style="list-style-type:none">
-        <a  asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <a asp-area="Identity" asp-page="/Account/Login">Login</a>
     </li>
 }
