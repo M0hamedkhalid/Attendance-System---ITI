@@ -7,31 +7,33 @@
 <div class="container">
     <main role="main" class="pb-3">
         <h1 class="h-3 my-3 title">@ViewBag.Title</h1>
-        <div class="row justify-content-center align-items-center h-100">
-             <div class="col-6 mb-2">
+        <div class="row justify-content-center h-100">
+            <div class="col-md-6 col-12 ">
                 <form>
-@*                    <label class="form-control-label px-3">Choose Department</label>
-*@                <select asp-items="@ViewBag.DeptID" asp-for="DepartmentId" class="form-control" style = "width:350px">
-                    <option> Choose Department</option>
-                </select><br />
-                    <button type="submit" class="btn btn-info">Bring Students </button>
+                    @*                    <label class="form-control-label px-3">Choose Department</label>
+                    *@                <button type="submit" class="btn btn-info mb-2">Bring Students</button>
+
+                    <select asp-items="@ViewBag.DeptID" asp-for="DepartmentId" class="form-control " style="width:350px">
+                        <option> Choose Department</option>
+                    </select><br />
+
 
                 </form>
             </div>
-            <div class="col-6 mb-5 py-5">
-                <select id="selectA" class = "form form-control" style = "width:350px">
-                @if (Model?.Flag == "attend" | Model?.Flag == null )
+            <div class="col-md-6 col-12 ">
+                <select id="selectA" class="form form-control" style="width:350px">
+                    @if (Model?.Flag == "attend" | Model?.Flag == null)
                     {
                         <option value="Attend" selected>Attend</option>
                         <option value="Leave">Leave</option>
                     }
                     else
                     {
-                         <option value="Attend" >Attend</option>
+                        <option value="Attend">Attend</option>
                         <option value="Leave" selected>Leave</option>
                     }
 
-            </select>
+                </select>
             </div>
 
 
@@ -53,37 +55,37 @@
                     {
                         <tr>
                             <td>
-                                <a asp-action="Attend" asp-route-id="@item.Id" asp-route-DepartmentId="@item.DeptID"  style="width:100px;color:black">@Html.DisplayFor(modelItem => item.Name)</a>
+                                <a asp-action="Attend" asp-route-id="@item.Id" asp-route-DepartmentId="@item.DeptID" style="width:100px;color:black">@Html.DisplayFor(modelItem => item.Name)</a>
                             </td>
                         </tr>
                     }
 
                 }
-                <tbody/>
+            <tbody />
 
             <tbody id="Leave">
                     @if (ViewBag.Attended != null)
                     {
                         @foreach (var s in ViewBag.Attended)
                         {
-                            <tr>
-                                <td>
-                                    <a asp-action="Leave" asp-route-id="@s.StudentId" asp-route-DepartmentId="@s.Student.DeptID" style="width:100px;color:black">@s.Student.Name</a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                <a asp-action="Leave" asp-route-id="@s.StudentId" asp-route-DepartmentId="@s.Student.DeptID" style="width:100px;color:black">@s.Student.Name</a>
+                            </td>
+                        </tr>
                         }
 
                     }
-                </tbody>
+            </tbody>
         </table>
     </main>
 </div>
 
 @section Scripts
-{
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    {
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             if ($("#selectA").val() == "Attend") {
                 $('#Leave').hide();
                 $('#Attend').show();
@@ -91,27 +93,27 @@
                 $('#Leave').show();
                 $('#Attend').hide();
             }
-            $("#selectA").change(function () {
+            $("#selectA").change(function() {
                 var currentdata = $("#" + $(this).val());
                 currentdata.show();
 
                 $('#Leave').not(currentdata).hide();
-                 $('#Attend').not(currentdata).hide();
+                $('#Attend').not(currentdata).hide();
             });
         })
-            //(function() {
-            //    let att = document.getElementById('Attend');
-            //    let leav = document.getElementById('Leave');
-            //    let select = document.getElementById('selectA');
-            //    if (select.value == "Attend") {
-            //        att.display = 'block';
-            //        leav.display = 'none'
-            //    }
-            //    else {
-            //        att.display = 'none';
-            //        leav.display = 'block'
-            //    }
-            //})()
+                    //(function() {
+                    //    let att = document.getElementById('Attend');
+                    //    let leav = document.getElementById('Leave');
+                    //    let select = document.getElementById('selectA');
+                    //    if (select.value == "Attend") {
+                    //        att.display = 'block';
+                    //        leav.display = 'none'
+                    //    }
+                    //    else {
+                    //        att.display = 'none';
+                    //        leav.display = 'block'
+                    //    }
+                    //})()
 
     </script>
 }
