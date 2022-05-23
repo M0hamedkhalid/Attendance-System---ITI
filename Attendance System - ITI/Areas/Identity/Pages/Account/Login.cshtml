@@ -10,11 +10,11 @@
 
 <div class="row container-fluid h-custom justify-content-center align-items-center">
     <div class="col-md-4">
-        <section class="vh-100">
+        <section class="vh-100 mb-5">
 
             @*<div class="col-md-9 col-lg-6 col-xl-5">*@
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                class="img-fluid" alt="Sample image">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                 class="img-fluid" alt="Sample image">
             @*</div>
 
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">*@
@@ -25,8 +25,8 @@
                     <p class="lead fw-normal mb-0 me-3 offset-1">Sign in with</p><br />
 
                     <button type="button" class="btn btn-light btn-floating mx-2">
-                    @*<i class="fab fa-facebook-f"></i>*@
-                    <a rel="nofollow" href="#"><i class="fa fa-facebook"></i></a>
+                        @*<i class="fab fa-facebook-f"></i>*@
+                        <a rel="nofollow" href="#"><i class="fa fa-facebook"></i></a>
                     </button>
 
                     <button type="button" class="btn btn-light btn-floating mx-2">
@@ -39,7 +39,7 @@
                         <a rel="nofollow" href="#"><i class="fa fa-linkedin"></i></a>
                     </button>
 
-                 </div>
+                </div>
 
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -64,25 +64,28 @@
                 <div>
                     <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
                 </div>
-                <div>
-                    @*<p>
-                        <a id="forgot-password" class="text-body" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>*@
-                    <p>
-                    <a asp-area="Identity" asp-page="/Account/InstractorRegister" class="text-primary">Register as Instructor</a>
-                    </p>
-                    <p>
-                    <a asp-area="Identity" asp-page="/Account/StudentRegister" class="text-primary"> Register as Student</a>
-                    </p>
-                    @*<p>
-                        <a id="resend-confirmation" class="text-body" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>*@
-                </div>
+
+                @* <div>
+
+                <p>
+                <a asp-area="Identity" asp-page="/Account/InstractorRegister" class="text-primary btn btn-secondary">Register as Instructor</a>
+                </p>
+                <p>
+                <a asp-area="Identity" asp-page="/Account/StudentRegister" class="text-primary btn btn-secondary"> Register as Student</a>
+                </p>
+
+                </div>*@
             </form>
 
             @*</div>*@
-
+             <div class="mt-2 mb-2">
+            <button asp-page="/Account/InstractorRegister" class="w-100 btn btn-lg btn-secondary">Sign Up as Instructor</button>
+        </div>
+        <div class="mb-2">
+            <button asp-page="/Account/StudentRegister" class="w-100 btn btn-lg btn-secondary">Sign Up as Student</button>
+        </div>
         </section>
+       
     </div>
 </div>
 
