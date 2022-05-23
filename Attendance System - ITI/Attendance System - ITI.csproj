@@ -27,4 +27,8 @@
     <Folder Include="Views\Attendance\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Manage\Index.cshtml" />
+  </ItemGroup>
+
 </Project>
