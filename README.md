@@ -20,7 +20,7 @@
   <p align="center">
     ASP .NET Core Project by group of ITI Students !
     <br />
-    <a href="https://www.edumotive.tk/"><strong>Visit The WebSite »</strong></a>
+    <a href="https://edumotive.azurewebsites.net"><strong>Visit The WebSite »</strong></a>
     <br />
     <br />
     <a href="https://github.com/M0hamedkhalid/Attendance-System---ITI/">View Demo</a>
@@ -64,7 +64,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://www.edumotive.tk)
+[![Product Name Screen Shot][product-screenshot]](https://edumotive.azurewebsites.net)
 
 ASP.NET MVC Web Application that has the 
 task of keeping track of the attendance of the students in ITI. For the creation of the 
